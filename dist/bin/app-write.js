@@ -26,5 +26,5 @@ class Write {
     }
 }
 exports.Write = Write;
-let app = new Write();
+const app = new Write();
 app.initialize();

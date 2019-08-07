@@ -1,34 +1,34 @@
-import { Writer } from '../src/writer';
-import * as chai from 'chai';
-import * as sinon from 'sinon';
+import { Writer } from '../src/writer'
+import * as chai from 'chai'
+import * as sinon from 'sinon'
 
-const assert = chai.assert;
+const assert = chai.assert
 
 describe('Writer', () => {
-    describe('#write()', () => {
-        it('should write a message', () => {
+  describe('#write()', () => {
+    it('should write a message', () => {
 
-            let spy = sinon.spy(console, 'log');
+      const spy = sinon.spy(console, 'log')
 
-            var writer = new Writer();
-            writer.write('I am being tested!');
+      const writer = new Writer()
+      writer.write('I am being tested!')
 
-            assert(spy.calledWith('I am being tested!'));
+      assert(spy.calledWith('I am being tested!'))
 
-            spy.restore();
+      spy.restore()
 
-        });
-        it('should write a default message', () => {
+    })
+    it('should write a default message', () => {
 
-            let spy = sinon.spy(console, 'log');
+      const spy = sinon.spy(console, 'log')
 
-            var writer = new Writer();
-            writer.write();
+      const writer = new Writer()
+      writer.write()
 
-            assert(spy.calledWith('Hello World!'));
+      assert(spy.calledWith('Hello World!'))
 
-            spy.restore();
+      spy.restore()
 
-        });
-    });
-});
+    })
+  })
+})

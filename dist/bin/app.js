@@ -14,5 +14,5 @@ class App {
     }
 }
 exports.App = App;
-let app = new App();
+const app = new App();
 app.initialize();
