@@ -7,7 +7,7 @@
 	"scripts": {
 		"clean": "rimraf dist",
 		"build": "npm run clean && tsc --pretty",
-		"test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
+		"test": "npm run build && mocha --require ts-node/register --recursive test/**/*-spec.ts",
 		"watch": "npm run build -- --watch",
 		"watch:test": "npm run test -- --watch"
 	},
@@ -25,19 +25,19 @@
 		"dist"
 	],
 	"devDependencies": {
-		"@types/chai": "^4.0.0",
-		"@types/commander": "^2.3.31",
-		"@types/mocha": "^2.2.39",
-		"@types/node": "^7.0.5",
-		"@types/sinon": "^2.3.0",
-		"chai": "^4.0.1",
-		"mocha": "^3.2.0",
-		"rimraf": "^2.6.1",
-		"sinon": "^2.3.2",
-		"ts-node": "^3.0.4",
-		"typescript": "^2.2.1"
+		"@types/chai": "^4.1.7",
+		"@types/commander": "^2.12.2",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.7.0",
+		"@types/sinon": "^7.0.13",
+		"chai": "^4.2.0",
+		"mocha": "^6.2.0",
+		"rimraf": "^2.6.3",
+		"sinon": "^7.4.1",
+		"ts-node": "^8.3.0",
+		"typescript": "^3.5.3"
 	},
 	"dependencies": {
-		"commander": "^2.9.0"
+		"commander": "^2.20.0"
 	}
 }
