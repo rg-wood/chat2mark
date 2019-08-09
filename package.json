@@ -8,6 +8,14 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --pretty",
     "test": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/**/*-spec.ts",
+    "test:collect": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/collect-spec.ts",
+    "test:parse": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/parse-spec.ts",
+    "test:markdown": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/markdown-spec.ts",
+    "test:shorten": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/shorten-spec.ts",
+    "test:capitalise": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/capitalise-spec.ts",
+    "test:group": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/group-adjacent-spec.ts",
+    "test:stop": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/stop-spec.ts",
+    "test:quotes": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/split-quotes-spec.ts",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },
@@ -27,9 +35,8 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^8.0.0",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.0",
-    "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "chai": "^4.2.0",
@@ -39,13 +46,20 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
+    "execa": "^2.0.3",
+    "fs-extra": "^8.1.0",
     "mocha": "^6.2.0",
     "rimraf": "^2.6.3",
-    "sinon": "^7.4.1",
+    "tempy": "^0.3.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "commander": "^2.20.0"
+    "@types/cheerio": "^0.22.13",
+    "@types/common-tags": "^1.8.0",
+    "@types/node": "^12.7.0",
+    "commander": "^2.20.0",
+    "common-tags": "^1.8.0",
+    "fp-ts": "^2.0.5"
   }
 }

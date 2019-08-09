@@ -1,7 +1,6 @@
-export declare class Write {
+export declare class Convert {
     private program;
     private package;
-    private writer;
     constructor();
     initialize(): void;
 }
