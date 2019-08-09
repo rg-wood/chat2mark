@@ -1,0 +1,116 @@
+import { parseChat } from '../src/parse'
+import { PlayerMessage, GameMasterMessage, Action, Speech, PartialAction, Roll, Private } from '../src/messages'
+import * as chai from 'chai'
+
+const expect = chai.expect
+
+describe('parseChat()', () => {
+  it('should parse a simple speech message', () => {
+    const html = `
+    <div class="message general" data-messageid="-LiygukE4o5mdt8-pZ_G">
+      <span class="tstamp" aria-hidden="true">July 04, 2019 9:36PM</span>
+      <span class="by">Orin:</span>
+      You do have an awful lot of stories.
+    </div>`
+
+    const expected = new PlayerMessage('Orin', [new Speech('You do have an awful lot of stories.')])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
+  it('should parse a simple action message', () => {
+    const html = `
+    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
+        Orin raises an eyebrow at Quinn.
+    </div>`
+
+    const expected = new PlayerMessage('Orin', [new Action('raises an eyebrow at Quinn.')])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
+  it('should parse a characters first name and last name', () => {
+    const html = `
+    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
+        Quinn Wheatsteal raises an eyebrow at Orin.
+    </div>`
+
+    const expected = new PlayerMessage('Quinn Wheatsteal', [new Action('raises an eyebrow at Orin.')])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
+  it('should parse a NPCs type like "the soldier"', () => {
+    const html = `
+    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
+        The soldier raises an eyebrow at Orin.
+    </div>`
+
+    const expected = new PlayerMessage('The soldier', [new Action('raises an eyebrow at Orin.')])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
+  it('should parse simple private message', () => {
+    const html = `
+    <div class="message rollresult private" data-messageid="-Liyjlr-ld4tBx_Jh4vE" data-playerid="-KsYuRIDFt8Tfx99PXO6">
+        <span class="by">Ric (GM):</span>
+        <div class="rolled">9</div>
+    </div>`
+
+    expect(parseChat(html)).to.deep.include.members([new Private()])
+  })
+
+  it('should parse simple roll message', () => {
+    const html = `
+    <div class="message general" data-messageid="-Liykp8HmEbuDqL4ouvn">
+        <span class="tstamp" aria-hidden="true">July 04, 2019 9:53PM</span>
+        <span class="by">Biron:</span>
+        <div class="sheet-rolltemplate-simple">
+            <div class="sheet-container">
+                <div class="sheet-result">
+                    <div class="sheet-adv">
+                        <span><span class="inlinerollresult showtip tipsy-n-right" title="Rolling 1d20+2 = (<span class=&quot;basicdiceroll&quot;>18</span>)+2">20</span>
+                        </span>
+                    </div>
+                    <div class="sheet-advspacer"></div>
+                    <div class="sheet-adv">
+                        <span><span class="inlinerollresult showtip tipsy-n-right" title="Rolling 1d20+2 = (<span class=&quot;basicdiceroll&quot;>4</span>)+2">6</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="sheet-label">
+                    <span>STEALTH <span>(2)</span></span>
+                </div>
+            </div>
+        </div>
+    </div>`
+
+    expect(parseChat(html)).to.deep.include.members([new Roll('Biron', 20, 'Stealth')])
+  })
+
+  it('should parse a partial action message', () => {
+    const html = `
+    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
+        Biron grunts, "nothin we need worry about"
+    </div>`
+
+    const expected = new PlayerMessage('Biron', [new PartialAction('grunts', 'nothin we need worry about')])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
+  it('should parse a partial action message with odd quotes', () => {
+    const html = `
+    <div class="message emote" data-messageid="-LiyoLUXGCdZQktKVOyL">
+        <div class="avatar" aria-hidden="true"><img src="/users/avatar/1427024/30"></div>
+        <div class="spacer"></div>Quinn looks to Biron ''anything of import?''
+    </div>`
+
+    const expected = new PlayerMessage('Quinn', [new PartialAction('looks to Biron', 'anything of import?')])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
+  it('should parse GM message', () => {
+    const html = `
+    <div class="message general you" data-messageid="-LiyoB1ePRmrDCSUjx8_">They soon disappear into the night as well.</div>`
+
+    const expected = new GameMasterMessage([new Speech('They soon disappear into the night as well.')])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+})
