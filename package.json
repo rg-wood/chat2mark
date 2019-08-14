@@ -1,51 +1,51 @@
 {
-	"name": "chat2mark",
-	"version": "0.1.0",
-	"description": "",
-	"repository": "",
-	"license": "MIT",
-	"scripts": {
-		"clean": "rimraf dist",
-		"build": "npm run clean && tsc --pretty",
-		"test": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/**/*-spec.ts",
-		"watch": "npm run build -- --watch",
-		"watch:test": "npm run test -- --watch"
-	},
-	"author": {
-		"name": "R.G. Wood",
-		"email": "ric@grislyeye.com"
-	},
-	"main": "dist/bin/app.js",
-	"typings": "dist/bin/app.d.ts",
-	"bin": {
-		"chat2mark": "bin/chat2mark"
-	},
-	"files": [
-		"bin",
-		"dist"
-	],
-	"devDependencies": {
-		"@types/chai": "^4.1.7",
-		"@types/commander": "^2.12.2",
-		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.7.0",
-		"@types/sinon": "^7.0.13",
-		"@typescript-eslint/eslint-plugin": "^1.13.0",
-		"@typescript-eslint/parser": "^1.13.0",
-		"chai": "^4.2.0",
-		"eslint": "^6.1.0",
-		"eslint-config-standard-with-typescript": "^8.0.0",
-		"eslint-plugin-import": "^2.18.2",
-		"eslint-plugin-node": "^9.1.0",
-		"eslint-plugin-promise": "^4.2.1",
-		"eslint-plugin-standard": "^4.0.0",
-		"mocha": "^6.2.0",
-		"rimraf": "^2.6.3",
-		"sinon": "^7.4.1",
-		"ts-node": "^8.3.0",
-		"typescript": "^3.5.3"
-	},
-	"dependencies": {
-		"commander": "^2.20.0"
-	}
+  "name": "chat2mark",
+  "version": "0.1.0",
+  "description": "",
+  "repository": "",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc --pretty",
+    "test": "eslint src/**/*.ts test/**/*.ts && npm run build && mocha --require ts-node/register --recursive test/**/*-spec.ts",
+    "watch": "npm run build -- --watch",
+    "watch:test": "npm run test -- --watch"
+  },
+  "author": {
+    "name": "R.G. Wood",
+    "email": "ric@grislyeye.com"
+  },
+  "main": "dist/bin/app.js",
+  "typings": "dist/bin/app.d.ts",
+  "bin": {
+    "chat2mark": "bin/chat2mark"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/commander": "^2.12.2",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.0",
+    "@types/sinon": "^7.0.13",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "chai": "^4.2.0",
+    "eslint": "^6.1.0",
+    "eslint-config-standard-with-typescript": "^8.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^6.2.0",
+    "rimraf": "^2.6.3",
+    "sinon": "^7.4.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "commander": "^2.20.0"
+  }
 }
