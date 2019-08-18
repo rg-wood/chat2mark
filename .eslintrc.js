@@ -11,6 +11,7 @@ module.exports =  {
   },
   rules:  {
     "padded-blocks": ["error", { "classes": "always" }],
-    "space-before-function-paren": ["error", "never"]
+    "space-before-function-paren": ["error", "never"],
+    "@typescript-eslint/no-parameter-properties": 0
   },
 };

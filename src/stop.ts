@@ -7,7 +7,7 @@ const appendFullStop: (s: string) => string = (s: string) => {
 }
 
 const fullStopEvent: (event: PlayerEvent) => PlayerEvent = (event: PlayerEvent) => {
-  switch(event.kind) {
+  switch (event.kind) {
     case 'action': return new Action(appendFullStop(event.message))
     case 'speech': return new Speech(appendFullStop(event.message))
     case 'partial': return new PartialAction(event.action, appendFullStop(event.message))
@@ -15,7 +15,7 @@ const fullStopEvent: (event: PlayerEvent) => PlayerEvent = (event: PlayerEvent) 
 }
 
 const fullStopMessage: (message: Message) => Message = (message: Message) => {
-  switch(message.kind) {
+  switch (message.kind) {
     case 'player': return new PlayerMessage(message.actor, message.events.map(fullStopEvent))
     default: return message
   }

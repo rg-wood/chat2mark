@@ -7,9 +7,9 @@ const expect = chai.expect
 describe('parseChat()', () => {
   it('should parse a simple speech message', () => {
     const html = `
-    <div class="message general" data-messageid="-LiygukE4o5mdt8-pZ_G">
-      <span class="tstamp" aria-hidden="true">July 04, 2019 9:36PM</span>
-      <span class="by">Orin:</span>
+    <div class='message general' data-messageid='-LiygukE4o5mdt8-pZ_G'>
+      <span class='tstamp' aria-hidden='true'>July 04, 2019 9:36PM</span>
+      <span class='by'>Orin:</span>
       You do have an awful lot of stories.
     </div>`
 
@@ -19,7 +19,7 @@ describe('parseChat()', () => {
 
   it('should parse a simple action message', () => {
     const html = `
-    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
+    <div class='message emote' data-messageid='-LiygrJkaQTP_Cmoi02m'>
         Orin raises an eyebrow at Quinn.
     </div>`
 
@@ -29,7 +29,7 @@ describe('parseChat()', () => {
 
   it('should parse a characters first name and last name', () => {
     const html = `
-    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
+    <div class='message emote' data-messageid='-LiygrJkaQTP_Cmoi02m'>
         Quinn Wheatsteal raises an eyebrow at Orin.
     </div>`
 
@@ -37,9 +37,9 @@ describe('parseChat()', () => {
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
-  it('should parse a NPCs type like "the soldier"', () => {
+  it('should parse a NPCs type like the soldier', () => {
     const html = `
-    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
+    <div class='message emote' data-messageid='-LiygrJkaQTP_Cmoi02m'>
         The soldier raises an eyebrow at Orin.
     </div>`
 
@@ -49,9 +49,9 @@ describe('parseChat()', () => {
 
   it('should parse simple private message', () => {
     const html = `
-    <div class="message rollresult private" data-messageid="-Liyjlr-ld4tBx_Jh4vE" data-playerid="-KsYuRIDFt8Tfx99PXO6">
-        <span class="by">Ric (GM):</span>
-        <div class="rolled">9</div>
+    <div class='message rollresult private' data-messageid='-Liyjlr-ld4tBx_Jh4vE' data-playerid='-KsYuRIDFt8Tfx99PXO6'>
+        <span class='by'>Ric (GM):</span>
+        <div class='rolled'>9</div>
     </div>`
 
     expect(parseChat(html)).to.deep.include.members([new Private()])
@@ -59,23 +59,23 @@ describe('parseChat()', () => {
 
   it('should parse simple roll message', () => {
     const html = `
-    <div class="message general" data-messageid="-Liykp8HmEbuDqL4ouvn">
-        <span class="tstamp" aria-hidden="true">July 04, 2019 9:53PM</span>
-        <span class="by">Biron:</span>
-        <div class="sheet-rolltemplate-simple">
-            <div class="sheet-container">
-                <div class="sheet-result">
-                    <div class="sheet-adv">
-                        <span><span class="inlinerollresult showtip tipsy-n-right" title="Rolling 1d20+2 = (<span class=&quot;basicdiceroll&quot;>18</span>)+2">20</span>
+    <div class='message general' data-messageid='-Liykp8HmEbuDqL4ouvn'>
+        <span class='tstamp' aria-hidden='true'>July 04, 2019 9:53PM</span>
+        <span class='by'>Biron:</span>
+        <div class='sheet-rolltemplate-simple'>
+            <div class='sheet-container'>
+                <div class='sheet-result'>
+                    <div class='sheet-adv'>
+                        <span><span class='inlinerollresult showtip tipsy-n-right' title='Rolling 1d20+2 = (<span class=&quot;basicdiceroll&quot;>18</span>)+2'>20</span>
                         </span>
                     </div>
-                    <div class="sheet-advspacer"></div>
-                    <div class="sheet-adv">
-                        <span><span class="inlinerollresult showtip tipsy-n-right" title="Rolling 1d20+2 = (<span class=&quot;basicdiceroll&quot;>4</span>)+2">6</span>
+                    <div class='sheet-advspacer'></div>
+                    <div class='sheet-adv'>
+                        <span><span class='inlinerollresult showtip tipsy-n-right' title='Rolling 1d20+2 = (<span class=&quot;basicdiceroll&quot;>4</span>)+2'>6</span>
                         </span>
                     </div>
                 </div>
-                <div class="sheet-label">
+                <div class='sheet-label'>
                     <span>STEALTH <span>(2)</span></span>
                 </div>
             </div>
@@ -87,8 +87,8 @@ describe('parseChat()', () => {
 
   it('should parse a partial action message', () => {
     const html = `
-    <div class="message emote" data-messageid="-LiygrJkaQTP_Cmoi02m">
-        Biron grunts, "nothin we need worry about"
+    <div class='message emote' data-messageid='-LiygrJkaQTP_Cmoi02m'>
+        Biron grunts, 'nothin we need worry about'
     </div>`
 
     const expected = new PlayerMessage('Biron', [new PartialAction('grunts', 'nothin we need worry about')])
@@ -97,9 +97,9 @@ describe('parseChat()', () => {
 
   it('should parse a partial action message with odd quotes', () => {
     const html = `
-    <div class="message emote" data-messageid="-LiyoLUXGCdZQktKVOyL">
-        <div class="avatar" aria-hidden="true"><img src="/users/avatar/1427024/30"></div>
-        <div class="spacer"></div>Quinn looks to Biron ''anything of import?''
+    <div class='message emote' data-messageid='-LiyoLUXGCdZQktKVOyL'>
+        <div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div>
+        <div class='spacer'></div>Quinn looks to Biron ''anything of import?''
     </div>`
 
     const expected = new PlayerMessage('Quinn', [new PartialAction('looks to Biron', 'anything of import?')])
@@ -108,7 +108,7 @@ describe('parseChat()', () => {
 
   it('should parse a partial action message with single quotes', () => {
     const html = `
-    <div class="message emote" data-messageid="-Lf12oo2GiovZrIWyKUN"><div class="avatar" aria-hidden="true"><img src="/users/avatar/1427024/30"></div><div class="spacer"></div>Quinn Wheatsteal mutters 'ye ain't coming closer guv'nor'</div>`
+    <div class='message emote' data-messageid='-Lf12oo2GiovZrIWyKUN'><div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div><div class='spacer'></div>Quinn Wheatsteal mutters 'ye ain't coming closer guv'nor'</div>`
 
     const expected = new PlayerMessage('Quinn Wheatsteal', [new PartialAction('mutters', `ye ain't coming closer guv'nor`)])
     expect(parseChat(html)).to.deep.include.members([expected])
@@ -116,9 +116,9 @@ describe('parseChat()', () => {
 
   it('should parse a partial action message with nested quotes', () => {
     const html = `
-    <div class="message emote" data-messageid="-LiykmSm7MV55nWmHnVF">
-    <div class="avatar" aria-hidden="true"><img src="/users/avatar/1427024/30"></div>
-    <div class="spacer"></div>Quinn Wheatsteal scratches his head ''sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...''</div>`
+    <div class='message emote' data-messageid='-LiykmSm7MV55nWmHnVF'>
+    <div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div>
+    <div class='spacer'></div>Quinn Wheatsteal scratches his head ''sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...''</div>`
 
     const expected = new PlayerMessage('Quinn Wheatsteal', [new PartialAction('scratches his head', `sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...`)])
     expect(parseChat(html)).to.deep.include.members([expected])
@@ -126,7 +126,7 @@ describe('parseChat()', () => {
 
   it('should parse GM message', () => {
     const html = `
-    <div class="message general you" data-messageid="-LiyoB1ePRmrDCSUjx8_">They soon disappear into the night as well.</div>`
+    <div class='message general you' data-messageid='-LiyoB1ePRmrDCSUjx8_'>They soon disappear into the night as well.</div>`
 
     const expected = new GameMasterMessage([new Speech('They soon disappear into the night as well.')])
     expect(parseChat(html)).to.deep.include.members([expected])

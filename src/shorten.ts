@@ -1,11 +1,11 @@
 import { Message, PlayerMessage } from './messages'
 
 const shortenedNames: { [character: string]: string } = {
-  "Quinn Wheatsteal": "Quinn",
-  "Sergeant Agata": "Agata",
-  "Corporal Loth": "Loth",
-  "Ba' Raknul": "Ba'Raknul",
-  "Ric (GM)": "GM"
+  'Quinn Wheatsteal': 'Quinn',
+  'Sergeant Agata': 'Agata',
+  'Corporal Loth': 'Loth',
+  'Ba\' Raknul': 'Ba\'Raknul',
+  'Ric (GM)': 'GM'
 }
 
 const shortenName: (message: PlayerMessage) => PlayerMessage = (message: PlayerMessage) =>
@@ -15,8 +15,8 @@ const shortenName: (message: PlayerMessage) => PlayerMessage = (message: PlayerM
   )
 
 const shortenNames: (message: Message) => Message = (message: Message) => {
-  switch(message.kind) {
-    case "player": return shortenName(message);
+  switch (message.kind) {
+    case 'player': return shortenName(message)
     default: return message
   }
 }

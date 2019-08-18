@@ -4,10 +4,10 @@ const messages_1 = require("./messages");
 const cheerio = require("cheerio");
 const capitalize = (s) => s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase());
 const parseRoll = (message) => new messages_1.Rolls([
-    new messages_1.Roll(message('.by').text().replace(/\:$/, ''), parseInt(message('.inlinerollresult').slice(0, 1).text()), capitalize(message('.sheet-label').text().trim().split(' ')[0]))
+    new messages_1.Roll(message('.by').text().replace(/:$/, ''), parseInt(message('.inlinerollresult').slice(0, 1).text()), capitalize(message('.sheet-label').text().trim().split(' ')[0]))
 ]);
 const parseSpeech = (message, element) => {
-    const actor = message('.by').text().replace(/\:$/, '');
+    const actor = message('.by').text().replace(/:$/, '');
     const speech = element
         .children
         .filter((c) => c.type === 'text')
@@ -22,7 +22,7 @@ const parseSpeech = (message, element) => {
 const nonCapitalisedWord = /^[a-z]/;
 const firstNonCapitalisedWord = (word) => word.match(nonCapitalisedWord) !== null;
 const indexOfName = (words) => {
-    if (words[0] === "The") {
+    if (words[0] === 'The') {
         return 2;
     }
     else {

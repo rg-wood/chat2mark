@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_tags_1 = require("common-tags");
 const playedBy = {
-    "Ba' Raknul": "Liam",
-    "Ba'Raknul": "Liam",
-    "Biron": "Chris",
-    "Orin": "Morgan",
-    "Quinn": "Mark",
-    "Quinn Wheatsteal": "Mark",
-    "Willem": "Gaston"
+    'Ba\' Raknul': 'Liam',
+    'Ba\'Raknul': 'Liam',
+    Biron: 'Chris',
+    Orin: 'Morgan',
+    Quinn: 'Mark',
+    'Quinn Wheatsteal': 'Mark',
+    Willem: 'Gaston'
 };
 const renderEvent = (event) => {
     switch (event.kind) {

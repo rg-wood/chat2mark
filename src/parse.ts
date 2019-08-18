@@ -7,14 +7,14 @@ const capitalize: (s: string) => string = (s: string) =>
 const parseRoll: (message: CheerioSelector) => Rolls = (message: CheerioSelector) =>
   new Rolls([
     new Roll(
-      message('.by').text().replace(/\:$/, ''),
+      message('.by').text().replace(/:$/, ''),
       parseInt(message('.inlinerollresult').slice(0, 1).text()),
       capitalize(message('.sheet-label').text().trim().split(' ')[0])
     )
   ])
 
 const parseSpeech: (message: CheerioSelector, element: CheerioElement) => PlayerMessage | GameMasterMessage = (message: CheerioSelector, element: CheerioElement) => {
-  const actor = message('.by').text().replace(/\:$/, '')
+  const actor = message('.by').text().replace(/:$/, '')
 
   const speech =
     element
@@ -33,7 +33,7 @@ const nonCapitalisedWord = /^[a-z]/
 const firstNonCapitalisedWord: (word: string) => boolean = (word: string) => word.match(nonCapitalisedWord) !== null
 
 const indexOfName: (words: string[]) => number = (words: string[]) => {
-  if (words[0] === "The") {
+  if (words[0] === 'The') {
     return 2
   } else {
     return words.findIndex(firstNonCapitalisedWord)
