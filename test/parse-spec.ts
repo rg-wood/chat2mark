@@ -131,4 +131,13 @@ describe('parseChat()', () => {
     const expected = new GameMasterMessage([new Speech('They soon disappear into the night as well.')])
     expect(parseChat(html)).to.deep.include.members([expected])
   })
+
+  it('should parse orphaned player messages', () => {
+    const html = `
+    <div class="message general" data-messageid="-Lf1-_168kjBpovxY3nn">We're being followed.</div>`
+
+    const expected = new PlayerMessage('', [new Speech(`We're being followed.`)])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
 })

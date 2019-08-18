@@ -277,11 +277,17 @@ id:
   <p>Morgan rolled a 16 for Orin's Shortbow check.</p>
 </aside>
 
-<dl></dl>
+<dl>
+<dt></dt>
+<dd>COMMONWEALTH TRAITOR!</dd>
 
-<p>COMMONWEALTH TRAITOR!</p>
-
-<dl></dl>
+<dt>Orin</dt>
+<dd>
+  <p class="action">whispers:</p>
+  <p>Slowly.</p>
+  <p>We're being followed.</p>
+</dd>
+</dl>
 
 <p>To be continued...</p>
 
