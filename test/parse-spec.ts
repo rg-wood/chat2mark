@@ -106,6 +106,24 @@ describe('parseChat()', () => {
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
+  it('should parse a partial action message with single quotes', () => {
+    const html = `
+    <div class="message emote" data-messageid="-Lf12oo2GiovZrIWyKUN"><div class="avatar" aria-hidden="true"><img src="/users/avatar/1427024/30"></div><div class="spacer"></div>Quinn Wheatsteal mutters 'ye ain't coming closer guv'nor'</div>`
+
+    const expected = new PlayerMessage('Quinn Wheatsteal', [new PartialAction('mutters', `ye ain't coming closer guv'nor`)])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
+  it('should parse a partial action message with nested quotes', () => {
+    const html = `
+    <div class="message emote" data-messageid="-LiykmSm7MV55nWmHnVF">
+    <div class="avatar" aria-hidden="true"><img src="/users/avatar/1427024/30"></div>
+    <div class="spacer"></div>Quinn Wheatsteal scratches his head ''sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...''</div>`
+
+    const expected = new PlayerMessage('Quinn Wheatsteal', [new PartialAction('scratches his head', `sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...`)])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
   it('should parse GM message', () => {
     const html = `
     <div class="message general you" data-messageid="-LiyoB1ePRmrDCSUjx8_">They soon disappear into the night as well.</div>`

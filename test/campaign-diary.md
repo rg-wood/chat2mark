@@ -268,6 +268,9 @@ id:
 
 <dt>Orin</dt>
 <dd class="action">furrows their brow at Biron.</dd>
+
+<dt>Quinn</dt>
+<dd><span class="action">mutters</span> Ye ain't coming closer guv'nor.</dd>
 </dl>
 
 <p>To be continued...</p>
