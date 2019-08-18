@@ -4,6 +4,7 @@ const shortenedNames: { [character: string]: string } = {
   "Quinn Wheatsteal": "Quinn",
   "Sergeant Agata": "Agata",
   "Corporal Loth": "Loth",
+  "Ba' Raknul": "Ba'Raknul",
   "Ric (GM)": "GM"
 }
 

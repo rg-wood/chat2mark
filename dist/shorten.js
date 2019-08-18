@@ -5,6 +5,7 @@ const shortenedNames = {
     "Quinn Wheatsteal": "Quinn",
     "Sergeant Agata": "Agata",
     "Corporal Loth": "Loth",
+    "Ba' Raknul": "Ba'Raknul",
     "Ric (GM)": "GM"
 };
 const shortenName = (message) => new messages_1.PlayerMessage(shortenedNames[message.actor] || message.actor, message.events);
