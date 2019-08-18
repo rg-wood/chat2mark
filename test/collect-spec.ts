@@ -1,5 +1,5 @@
 import { collect } from '../src/collect'
-import { PlayerMessage, GameMasterMessage, Action, Speech, Roll, Private } from '../src/messages'
+import { PlayerMessage, GameMasterMessage, Action, Speech, Rolls, Roll, Private } from '../src/messages'
 import * as chai from 'chai'
 
 const expect = chai.expect
@@ -66,6 +66,21 @@ describe('collect()', () => {
           new Speech('picks up and apple and starts eating it.')
         ]
       )
+
+    expect(collect(messages)).to.deep.equals([expected])
+  })
+
+  it('should collect rolls', () => {
+    const messages = [
+      new Rolls([new Roll('Quinn', 10, 'Initiative')]),
+      new Rolls([new Roll('Orin', 15, 'Perception')])
+    ]
+
+    const expected =
+      new Rolls([
+        new Roll('Quinn', 10, 'Initiative'),
+        new Roll('Orin', 15, 'Perception')
+      ])
 
     expect(collect(messages)).to.deep.equals([expected])
   })

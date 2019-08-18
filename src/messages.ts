@@ -1,4 +1,4 @@
-export type Message = PlayerMessage | Roll | Private | GameMasterMessage
+export type Message = PlayerMessage | Rolls | Private | GameMasterMessage
 
 export class PlayerMessage {
 
@@ -9,9 +9,16 @@ export class PlayerMessage {
 
 }
 
-export class Roll {
+export class Rolls {
 
-  readonly kind = "roll"
+  readonly kind = "rolls"
+
+  constructor(readonly rolls: Roll[]) {
+  }
+
+}
+
+export class Roll {
 
   constructor(readonly roller: string, readonly result: number, readonly check: string) {
   }

@@ -29,8 +29,23 @@ const flattenGmMessage = (messages) => {
     else
         return baseMessage;
 };
+const flattenRolls = (messages) => {
+    const baseMessage = messages[0];
+    if (messages.length == 1)
+        return baseMessage;
+    else if (baseMessage.kind === "rolls") {
+        const rolls = messages
+            .filter((m) => m.kind === "rolls")
+            .map(m => m.rolls[0]);
+        return new messages_1.Rolls(rolls);
+    }
+    else
+        return baseMessage;
+};
 const consecutiveSameActors = (pre, cur) => pre.kind === "player" && cur.kind === "player" && pre.actor === cur.actor;
 const collectPlayerMessages = (messages) => group_adjacent_1.groupAdjacent(messages, consecutiveSameActors).map(flattenPlayerMessage);
 const consecutiveGmMessages = (pre, cur) => pre.kind === "gm" && cur.kind === "gm";
 const collectGmMessages = (messages) => group_adjacent_1.groupAdjacent(messages, consecutiveGmMessages).map(flattenGmMessage);
-exports.collect = function_1.flow(collectPlayerMessages, collectGmMessages);
+const consecutiveRolls = (pre, cur) => pre.kind === "rolls" && cur.kind === "rolls";
+const collectRolls = (messages) => group_adjacent_1.groupAdjacent(messages, consecutiveRolls).map(flattenRolls);
+exports.collect = function_1.flow(collectPlayerMessages, collectGmMessages, collectRolls);

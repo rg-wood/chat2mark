@@ -8,12 +8,18 @@ class PlayerMessage {
     }
 }
 exports.PlayerMessage = PlayerMessage;
+class Rolls {
+    constructor(rolls) {
+        this.rolls = rolls;
+        this.kind = "rolls";
+    }
+}
+exports.Rolls = Rolls;
 class Roll {
     constructor(roller, result, check) {
         this.roller = roller;
         this.result = result;
         this.check = check;
-        this.kind = "roll";
     }
 }
 exports.Roll = Roll;
