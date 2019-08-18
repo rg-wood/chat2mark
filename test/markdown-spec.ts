@@ -1,5 +1,5 @@
 import { toMarkdown } from '../src/markdown'
-import { PlayerMessage, GameMasterMessage, Action, Speech, Roll, Private, PartialAction } from '../src/messages'
+import { PlayerMessage, GameMasterMessage, Action, Speech, Rolls, Roll, Private, PartialAction } from '../src/messages'
 import * as chai from 'chai'
 import { stripIndent } from 'common-tags'
 
@@ -118,7 +118,7 @@ id:
   })
 
   it('should include simple roll message', () => {
-    expect(toMarkdown([new Roll('Orin', 9, 'Stealth')])).to.include(
+    expect(toMarkdown([new Rolls([new Roll('Orin', 9, 'Stealth')])])).to.include(
       stripIndent`
         <aside>
           <p>Morgan rolled a 9 for Orin's Stealth check.</p>
@@ -126,7 +126,7 @@ id:
   })
 
   it('should terminate and start description list around roll message', () => {
-    expect(toMarkdown([new Roll('Orin', 9, 'Stealth')])).to.include(
+    expect(toMarkdown([new Rolls([new Roll('Orin', 9, 'Stealth')])])).to.include(
       stripIndent`
         </dl>
 
@@ -135,6 +135,15 @@ id:
         </aside>
 
         <dl>`)
+  })
+
+  it('should include multiple roll message', () => {
+    expect(toMarkdown([new Rolls([new Roll('Orin', 9, 'Stealth'), new Roll('Quinn', 15, 'Perception')])])).to.include(
+      stripIndent`
+        <aside>
+          <p>Morgan rolled a 9 for Orin's Stealth check.</p>
+          <p>Mark rolled a 15 for Quinn's Perception check.</p>
+        </aside>`)
   })
 
   it('should ignore private message', () => {

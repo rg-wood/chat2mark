@@ -1,15 +1,19 @@
-export declare type Message = PlayerMessage | Roll | Private | GameMasterMessage;
+export declare type Message = PlayerMessage | Rolls | Private | GameMasterMessage;
 export declare class PlayerMessage {
     readonly actor: string;
     readonly events: PlayerEvent[];
     readonly kind = "player";
     constructor(actor: string, events: PlayerEvent[]);
 }
+export declare class Rolls {
+    readonly rolls: Roll[];
+    readonly kind = "rolls";
+    constructor(rolls: Roll[]);
+}
 export declare class Roll {
     readonly roller: string;
     readonly result: number;
     readonly check: string;
-    readonly kind = "roll";
     constructor(roller: string, result: number, check: string);
 }
 export declare class Private {

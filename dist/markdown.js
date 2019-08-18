@@ -2,10 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_tags_1 = require("common-tags");
 const playedBy = {
+    "Ba' Raknul": "Liam",
     "Ba'Raknul": "Liam",
     "Biron": "Chris",
     "Orin": "Morgan",
     "Quinn": "Mark",
+    "Quinn Wheatsteal": "Mark",
+    "Willem": "Gaston"
 };
 const renderEvent = (event) => {
     switch (event.kind) {
@@ -34,10 +37,14 @@ const renderGameMasterMessage = (message) => {
     <dl>`;
     return preamble + '\n\n' + messages + '\n\n' + postamble;
 };
+const renderRolls = (rolls) => rolls
+    .rolls
+    .map((roll) => `  <p>${playedBy[roll.roller]} rolled a ${roll.result} for ${roll.roller}'s ${roll.check} check.</p>\n`)
+    .join('');
 const renderMessage = (message) => {
     switch (message.kind) {
         case 'player': return renderPlayerMessage(message);
-        case 'roll': return `</dl>\n\n<aside>\n  <p>${playedBy[message.roller]} rolled a ${message.result} for ${message.roller}'s ${message.check} check.</p>\n</aside>\n\n<dl>`;
+        case 'rolls': return `</dl>\n\n<aside>\n${renderRolls(message)}</aside>\n\n<dl>`;
         case 'private': return '';
         case 'gm': return renderGameMasterMessage(message);
     }

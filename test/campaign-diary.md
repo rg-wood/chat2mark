@@ -125,6 +125,7 @@ id:
 
 <aside>
   <p>Morgan rolled a 20 for Orin's Perception check.</p>
+  <p>Mark rolled a 20 for Quinn Wheatsteal's Perception check.</p>
 </aside>
 
 <dl></dl>

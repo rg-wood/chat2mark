@@ -1,5 +1,5 @@
 import { parseChat } from '../src/parse'
-import { PlayerMessage, GameMasterMessage, Action, Speech, PartialAction, Roll, Private } from '../src/messages'
+import { PlayerMessage, GameMasterMessage, Action, Speech, PartialAction, Rolls, Roll, Private } from '../src/messages'
 import * as chai from 'chai'
 
 const expect = chai.expect
@@ -82,7 +82,7 @@ describe('parseChat()', () => {
         </div>
     </div>`
 
-    expect(parseChat(html)).to.deep.include.members([new Roll('Biron', 20, 'Stealth')])
+    expect(parseChat(html)).to.deep.include.members([new Rolls([new Roll('Biron', 20, 'Stealth')])])
   })
 
   it('should parse a partial action message', () => {

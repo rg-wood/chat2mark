@@ -1,11 +1,14 @@
 import { stripIndent } from 'common-tags'
-import { Message, PlayerMessage, PlayerEvent, Action, Speech, Roll, Private, PartialAction, GameMasterMessage } from './messages'
+import { Message, PlayerMessage, PlayerEvent, Action, Speech, Rolls, Roll, Private, PartialAction, GameMasterMessage } from './messages'
 
 const playedBy: { [character: string]: string } = {
+  "Ba' Raknul": "Liam",
   "Ba'Raknul": "Liam",
   "Biron": "Chris",
   "Orin": "Morgan",
   "Quinn": "Mark",
+  "Quinn Wheatsteal": "Mark",
+  "Willem": "Gaston"
 }
 
 const renderEvent: (event: PlayerEvent) => string = (event: PlayerEvent) => {
@@ -44,10 +47,16 @@ const renderGameMasterMessage: (message: GameMasterMessage) => string = (message
     return preamble + '\n\n' + messages + '\n\n' + postamble
 }
 
+const renderRolls: (rolls: Rolls) => string = (rolls: Rolls) =>
+  rolls
+    .rolls
+    .map((roll) => `  <p>${playedBy[roll.roller]} rolled a ${roll.result} for ${roll.roller}'s ${roll.check} check.</p>\n`)
+    .join('')
+
 const renderMessage:(message: Message) => string = (message: Message) => {
   switch(message.kind) {
     case 'player': return renderPlayerMessage(message)
-    case 'roll': return `</dl>\n\n<aside>\n  <p>${playedBy[message.roller]} rolled a ${message.result} for ${message.roller}'s ${message.check} check.</p>\n</aside>\n\n<dl>`
+    case 'rolls': return `</dl>\n\n<aside>\n${renderRolls(message)}</aside>\n\n<dl>`
     case 'private': return ''
     case 'gm': return renderGameMasterMessage(message)
   }
