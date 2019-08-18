@@ -14,7 +14,7 @@ const parseSpeech = (message, element) => {
         .map((c) => c.data)
         .join(' ')
         .trim();
-    if (actor && !actor.includes('GM'))
+    if ((actor && !actor.includes('GM')) || !element.attribs['class'].includes('you'))
         return new messages_1.PlayerMessage(actor, [new messages_1.Speech(speech)]);
     else
         return new messages_1.GameMasterMessage([new messages_1.Speech(speech)]);

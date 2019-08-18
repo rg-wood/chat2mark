@@ -24,7 +24,7 @@ const parseSpeech: (message: CheerioSelector, element: CheerioElement) => Player
       .join(' ')
       .trim()
 
-  if (actor && !actor.includes('GM')) return new PlayerMessage(actor, [new Speech(speech)])
+  if ((actor && !actor.includes('GM')) || !element.attribs['class'].includes('you')) return new PlayerMessage(actor, [new Speech(speech)])
   else return new GameMasterMessage([new Speech(speech)])
 }
 
