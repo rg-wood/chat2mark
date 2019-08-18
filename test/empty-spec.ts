@@ -16,9 +16,14 @@ describe('empty()', () => {
     expect(empty([message])).to.be.not.deep.equal([])
   })
 
-  it('should not other message types', () => {
+  it('should not filter other message types', () => {
     const message = new GameMasterMessage([new Speech('You do have an awful lot of stories.')])
     expect(empty([message])).to.be.deep.equal([message])
+  })
+
+  it('should filter empty GM messages', () => {
+    const message = new GameMasterMessage([])
+    expect(empty([message])).to.be.deep.equal([])
   })
 
 })
