@@ -1,6 +1,6 @@
 {
   "name": "chat2mark",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "repository": "",
   "license": "MIT",
@@ -35,7 +35,6 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/commander": "^2.12.2",
-    "@types/fs-extra": "^8.0.0",
     "@types/mocha": "^5.2.7",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
@@ -47,7 +46,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "execa": "^2.0.3",
-    "fs-extra": "^8.1.0",
     "mocha": "^6.2.0",
     "rimraf": "^2.6.3",
     "tempy": "^0.3.0",
@@ -57,10 +55,12 @@
   "dependencies": {
     "@types/cheerio": "^0.22.13",
     "@types/common-tags": "^1.8.0",
+    "@types/fs-extra": "^8.0.0",
     "@types/node": "^12.7.0",
     "cheerio": "^1.0.0-rc.3",
     "commander": "^2.20.0",
     "common-tags": "^1.8.0",
-    "fp-ts": "^2.0.5"
+    "fp-ts": "^2.0.5",
+    "fs-extra": "^8.1.0"
   }
 }
