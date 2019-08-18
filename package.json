@@ -1,6 +1,6 @@
 {
   "name": "chat2mark",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "repository": "",
   "license": "MIT",
@@ -58,6 +58,7 @@
     "@types/cheerio": "^0.22.13",
     "@types/common-tags": "^1.8.0",
     "@types/node": "^12.7.0",
+    "cheerio": "^1.0.0-rc.3",
     "commander": "^2.20.0",
     "common-tags": "^1.8.0",
     "fp-ts": "^2.0.5"
