@@ -1,1 +1,1 @@
-export declare function groupAdjacent<T>(array: Array<T>, cb: (l: T, r: T) => boolean): Array<Array<T>>;
+export declare function groupAdjacent<T>(array: T[], cb: (l: T, r: T) => boolean): T[][];

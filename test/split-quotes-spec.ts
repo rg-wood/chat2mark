@@ -4,9 +4,9 @@ import * as chai from 'chai'
 
 const expect = chai.expect
 
-describe('shorten()', () => {
+describe('splitQuotes()', () => {
 
-  it('should shorten characters names', () => {
+  it('should split quotes in actions', () => {
     const message = new PlayerMessage('Quinn', [new Action(`crawls back into the cave and shakes Biron, then Orin ''wake up, someone comes!''`)])
 
     expect(splitQuotes([message])).to.deep.include.members([
