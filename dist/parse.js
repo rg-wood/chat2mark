@@ -29,9 +29,9 @@ const indexOfName = (words) => {
         return words.findIndex(firstNonCapitalisedWord);
     }
 };
-const partialAction = /^([^,]*),? ("|'')(.*)("|'')$/;
+const partialAction = /^([^,]*),? ("|')(.*)\2$/;
 const parseAction = (action) => {
-    const match = action.match(partialAction);
+    const match = action.replace(/''/g, `"`).match(partialAction);
     if (match != null) {
         return new messages_1.PartialAction(match[1], match[3]);
     }

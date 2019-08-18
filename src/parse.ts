@@ -40,10 +40,10 @@ const indexOfName: (words: string[]) => number = (words: string[]) => {
   }
 }
 
-const partialAction = /^([^,]*),? ("|'')(.*)("|'')$/
+const partialAction = /^([^,]*),? ("|')(.*)\2$/
 
 const parseAction: (action: string) => Action | PartialAction = (action: string) => {
-  const match = action.match(partialAction)
+  const match = action.replace(/''/g, `"`).match(partialAction)
   if (match != null) {
     return new PartialAction(match[1], match[3])
   } else {
