@@ -1,5 +1,5 @@
 import { empty } from '../src/empty'
-import { PlayerMessage, GameMasterMessage, Speech } from '../src/messages'
+import { PlayerMessage, GameMasterMessage, Speech, Rolls, Roll } from '../src/messages'
 import * as chai from 'chai'
 
 const expect = chai.expect
@@ -23,6 +23,16 @@ describe('empty()', () => {
 
   it('should filter empty GM messages', () => {
     const message = new GameMasterMessage([])
+    expect(empty([message])).to.be.deep.equal([])
+  })
+
+  it('should filter empty roll roller', () => {
+    const message = new Rolls([new Roll('', 11, 'Stealth')])
+    expect(empty([message])).to.be.deep.equal([])
+  })
+
+  it('should filter empty roll check', () => {
+    const message = new Rolls([new Roll('Orin', 11, '')])
     expect(empty([message])).to.be.deep.equal([])
   })
 

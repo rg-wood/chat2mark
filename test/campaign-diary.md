@@ -273,6 +273,16 @@ id:
 <dd><span class="action">mutters</span> Ye ain't coming closer guv'nor.</dd>
 </dl>
 
+<aside>
+  <p>Morgan rolled a 16 for Orin's Shortbow check.</p>
+</aside>
+
+<dl></dl>
+
+<p>COMMONWEALTH TRAITOR!</p>
+
+<dl></dl>
+
 <p>To be continued...</p>
 
 </section>
