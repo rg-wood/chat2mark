@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.empty = void 0;
 const messages_1 = require("./messages");
 const emptyMessage = (event) => (event.message !== undefined && event.message.trim() !== '');
 const emptyRoll = (roll) => (roll.roller !== undefined && roll.check !== undefined && roll.roller.trim() !== '' && roll.check.trim() !== '');

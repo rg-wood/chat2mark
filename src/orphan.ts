@@ -1,8 +1,8 @@
 import { Message, PlayerMessage, PlayerEvent } from './messages'
 import { groupAdjacent } from './group-adjacent'
 
-function flatten<T>(arrays: T[][]): T[] {
-  return [].concat.apply([], arrays)
+function flatten<T> (arrays: T[][]): T[] {
+  return ([] as T[]).concat(...arrays)
 }
 
 const flattenOrphans: (messages: Message[]) => Message = (messages: Message[]) => {

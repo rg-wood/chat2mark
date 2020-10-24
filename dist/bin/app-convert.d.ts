@@ -1,6 +1,6 @@
 export declare class Convert {
-    private program;
-    private package;
+    private readonly program;
+    private readonly package;
     constructor();
     initialize(): void;
 }

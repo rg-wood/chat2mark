@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.capitaliseMessages = void 0;
 const messages_1 = require("./messages");
 const capitalise = (s) => s.charAt(0).toUpperCase().concat(s.slice(1));
 const lowercase = (s) => s.charAt(0).toLowerCase().concat(s.slice(1));

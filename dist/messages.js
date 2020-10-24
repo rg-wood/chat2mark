@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PartialAction = exports.Speech = exports.Action = exports.GameMasterMessage = exports.Private = exports.Roll = exports.Rolls = exports.PlayerMessage = void 0;
 class PlayerMessage {
     constructor(actor, events) {
         this.actor = actor;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.toMarkdown = void 0;
 const common_tags_1 = require("common-tags");
 const playedBy = {
     'Ba\' Raknul': 'Liam',

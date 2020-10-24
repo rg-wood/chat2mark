@@ -10,7 +10,7 @@ const shortenedNames: { [character: string]: string } = {
 
 const shortenName: (message: PlayerMessage) => PlayerMessage = (message: PlayerMessage) =>
   new PlayerMessage(
-    shortenedNames[message.actor] || message.actor,
+    (shortenedNames[message.actor] != null && shortenedNames[message.actor]) || message.actor,
     message.events
   )
 

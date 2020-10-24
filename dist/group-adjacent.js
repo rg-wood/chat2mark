@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.groupAdjacent = void 0;
 function groupAdjacent(array, cb) {
     return array.reduce(function (prev, cur) {
         if (prev.length > 0) {

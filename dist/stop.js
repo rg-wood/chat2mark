@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.stop = void 0;
 const messages_1 = require("./messages");
 const appendFullStop = (s) => {
     if (s.charAt(s.length - 1).match(/[A-za-z]/) != null) {

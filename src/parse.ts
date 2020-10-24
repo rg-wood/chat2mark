@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio'
 const capitalize: (s: string) => string = (s: string) =>
   s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase())
 
-const parseRoll: (message: CheerioSelector) => Rolls = (message: CheerioSelector) =>
+const parseRoll: (message: cheerio.Selector) => Rolls = (message: cheerio.Selector) =>
   new Rolls([
     new Roll(
       message('.by').text().replace(/:$/, ''),
@@ -13,7 +13,7 @@ const parseRoll: (message: CheerioSelector) => Rolls = (message: CheerioSelector
     )
   ])
 
-const parseSpeech: (message: CheerioSelector, element: CheerioElement) => PlayerMessage | GameMasterMessage = (message: CheerioSelector, element: CheerioElement) => {
+const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => PlayerMessage | GameMasterMessage = (message: cheerio.Selector, element: cheerio.Element) => {
   const actor = message('.by').text().replace(/:$/, '')
 
   const speech =
@@ -24,7 +24,9 @@ const parseSpeech: (message: CheerioSelector, element: CheerioElement) => Player
       .join(' ')
       .trim()
 
-  if ((actor && !actor.includes('GM')) || !element.attribs['class'].includes('you')) return new PlayerMessage(actor, [new Speech(speech)])
+  /* eslint-disable */
+  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new PlayerMessage(actor, [new Speech(speech)])
+  /* eslint-enable */
   else return new GameMasterMessage([new Speech(speech)])
 }
 
@@ -43,7 +45,9 @@ const indexOfName: (words: string[]) => number = (words: string[]) => {
 const partialAction = /^([^,]*),? ("|')(.*)\2$/
 
 const parseAction: (action: string) => Action | PartialAction = (action: string) => {
+  /* eslint-disable */
   const match = action.replace(/''/g, `"`).match(partialAction)
+  /* eslint-enable */
   if (match != null) {
     return new PartialAction(match[1], match[3])
   } else {
@@ -51,7 +55,7 @@ const parseAction: (action: string) => Action | PartialAction = (action: string)
   }
 }
 
-const parsePlayerAction: (message: CheerioSelector, element: CheerioElement) => PlayerMessage = (message: CheerioSelector, element: CheerioElement) => {
+const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) => PlayerMessage = (message: cheerio.Selector, element: cheerio.Element) => {
   const words = element
     .children
     .filter((c) => c.type === 'text')
@@ -71,7 +75,7 @@ const parsePlayerAction: (message: CheerioSelector, element: CheerioElement) => 
   )
 }
 
-const parseMessage: (element: CheerioElement) => Message = (element: CheerioElement) => {
+const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.Element) => {
   const message = cheerio.load(element)
 
   if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {

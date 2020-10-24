@@ -4,7 +4,7 @@ export class PlayerMessage {
 
   public readonly kind = 'player'
 
-  public constructor(readonly actor: string, readonly events: PlayerEvent[]) {
+  public constructor (readonly actor: string, readonly events: PlayerEvent[]) {
   }
 
 }
@@ -13,14 +13,14 @@ export class Rolls {
 
   public readonly kind = 'rolls'
 
-  public constructor(readonly rolls: Roll[]) {
+  public constructor (readonly rolls: Roll[]) {
   }
 
 }
 
 export class Roll {
 
-  public constructor(readonly roller: string, readonly result: number, readonly check: string) {
+  public constructor (readonly roller: string, readonly result: number, readonly check: string) {
   }
 
 }
@@ -35,7 +35,7 @@ export class GameMasterMessage {
 
   public readonly kind = 'gm'
 
-  public constructor(readonly events: Speech[]) {
+  public constructor (readonly events: Speech[]) {
   }
 
 }
@@ -46,7 +46,7 @@ export class Action {
 
   public readonly kind = 'action'
 
-  public constructor(readonly message: string) {
+  public constructor (readonly message: string) {
   }
 
 }
@@ -55,7 +55,7 @@ export class Speech {
 
   public readonly kind = 'speech'
 
-  public constructor(readonly message: string) {
+  public constructor (readonly message: string) {
   }
 
 }
@@ -64,7 +64,7 @@ export class PartialAction {
 
   public readonly kind = 'partial'
 
-  public constructor(readonly action: string, readonly message: string) {
+  public constructor (readonly action: string, readonly message: string) {
   }
 
 }

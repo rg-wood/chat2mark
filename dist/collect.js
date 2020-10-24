@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.collect = void 0;
 const messages_1 = require("./messages");
 const group_adjacent_1 = require("./group-adjacent");
 const function_1 = require("fp-ts/lib/function");

@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.splitQuotes = void 0;
 const messages_1 = require("./messages");
 function flatten(arrays) {
-    return [].concat.apply([], arrays);
+    return [].concat(...arrays);
 }
 const quotes = /^(.*)("|'')(.*)("|'')(.*)$/;
 const splitQuotesForAction = (action) => {

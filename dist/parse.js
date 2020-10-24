@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseChat = void 0;
 const messages_1 = require("./messages");
 const cheerio = require("cheerio");
 const capitalize = (s) => s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase());
@@ -14,7 +15,7 @@ const parseSpeech = (message, element) => {
         .map((c) => c.data)
         .join(' ')
         .trim();
-    if ((actor && !actor.includes('GM')) || !element.attribs['class'].includes('you'))
+    if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you')))
         return new messages_1.PlayerMessage(actor, [new messages_1.Speech(speech)]);
     else
         return new messages_1.GameMasterMessage([new messages_1.Speech(speech)]);

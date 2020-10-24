@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Convert = void 0;
 const commander = require("commander");
 const convert_1 = require("../convert");
 const fs = require("fs-extra");

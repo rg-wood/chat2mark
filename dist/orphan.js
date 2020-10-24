@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.orphan = void 0;
 const messages_1 = require("./messages");
 const group_adjacent_1 = require("./group-adjacent");
 function flatten(arrays) {
-    return [].concat.apply([], arrays);
+    return [].concat(...arrays);
 }
 const flattenOrphans = (messages) => {
     const baseMessage = messages[0];

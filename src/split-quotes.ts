@@ -1,7 +1,7 @@
 import { Message, PlayerMessage, PlayerEvent, Action, Speech } from './messages'
 
-function flatten<T>(arrays: T[][]): T[] {
-  return [].concat.apply([], arrays)
+function flatten<T> (arrays: T[][]): T[] {
+  return ([] as T[]).concat(...arrays)
 }
 
 const quotes = /^(.*)("|'')(.*)("|'')(.*)$/
