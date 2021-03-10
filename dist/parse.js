@@ -4,9 +4,23 @@ exports.parseChat = void 0;
 const messages_1 = require("./messages");
 const cheerio = require("cheerio");
 const capitalize = (s) => s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase());
-const parseRoll = (message) => new messages_1.Rolls([
-    new messages_1.Roll(message('.by').text().replace(/:$/, ''), parseInt(message('.inlinerollresult').slice(0, 1).text()), capitalize(message('.sheet-label').text().trim().split(' ')[0]))
-]);
+const parseRollResult = (message) => {
+    if (message('.inlinerollresult').length > 0) {
+        return parseInt(message('.inlinerollresult').slice(0, 1).text());
+    }
+    else {
+        return parseInt(message('.rolled').slice(0, 1).text());
+    }
+};
+const parseRoll = (message) => {
+    const check = message('.sheet-label').text().trim().split(' ')[0];
+    if (check === '') {
+        return new messages_1.Rolls([new messages_1.Roll(message('.by').text().replace(/:$/, ''), parseRollResult(message))]);
+    }
+    else {
+        return new messages_1.Rolls([new messages_1.Roll(message('.by').text().replace(/:$/, ''), parseRollResult(message), capitalize(check))]);
+    }
+};
 const parseSpeech = (message, element) => {
     const actor = message('.by').text().replace(/:$/, '');
     const speech = element
@@ -55,7 +69,13 @@ const parsePlayerAction = (message, element) => {
 };
 const parseMessage = (element) => {
     const message = cheerio.load(element);
-    if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
+    if (element.attribs.class.includes('private')) {
+        return new messages_1.Private();
+    }
+    else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
+        return parseRoll(message);
+    }
+    else if (element.attribs.class.includes('rollresult')) {
         return parseRoll(message);
     }
     else if (element.attribs.class.includes('general')) {
@@ -64,11 +84,8 @@ const parseMessage = (element) => {
     else if (element.attribs.class.includes('emote')) {
         return parsePlayerAction(message, element);
     }
-    else if (element.attribs.class.includes('private')) {
-        return new messages_1.Private();
-    }
     else {
-        throw new Error(`Unrecognised message: ${message.html()}`);
+        throw new Error(`Unrecognised message for classes=[${element.attribs.class}]: ${message.html()}`);
     }
 };
 exports.parseChat = (html) => {

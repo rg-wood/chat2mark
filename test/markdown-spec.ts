@@ -125,6 +125,14 @@ id:
         </aside>`)
   })
 
+  it('should include simple roll message without check', () => {
+    expect(toMarkdown([new Rolls([new Roll('Orin', 9)])])).to.include(
+      stripIndent`
+        <aside>
+          <p>Morgan rolled a 9.</p>
+        </aside>`)
+  })
+
   it('should terminate and start description list around roll message', () => {
     expect(toMarkdown([new Rolls([new Roll('Orin', 9, 'Stealth')])])).to.include(
       stripIndent`

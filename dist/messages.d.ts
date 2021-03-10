@@ -13,8 +13,8 @@ export declare class Rolls {
 export declare class Roll {
     readonly roller: string;
     readonly result: number;
-    readonly check: string;
-    constructor(roller: string, result: number, check: string);
+    readonly check?: string | undefined;
+    constructor(roller: string, result: number, check?: string | undefined);
 }
 export declare class Private {
     readonly kind = "private";

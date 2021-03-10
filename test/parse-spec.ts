@@ -140,4 +140,21 @@ describe('parseChat()', () => {
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
+  it('should parse unknown roll format without check field', () => {
+    const html = `
+    <div class="message rollresult player--MHI3xmxHclhV3xhCadC " data-messageid="-MIzW8pyy9kZ4s-IC0c0" data-playerid="-MHI3xmxHclhV3xhCadC">
+      <div class="spacer"></div>
+      <div class="avatar" aria-hidden="true"></div>
+      <span class="tstamp" aria-hidden="true">October 06, 2020 9:05PM</span>
+      <span class="by">Flint:</span>
+      <div class="formula" style="margin-bottom: 3px;">rolling 1d20+3</div>
+      <div class="clear"></div>
+      <div class="formula formattedformula">
+      <div class="dicegrouping" data-groupindex="0">(<div data-origindex="0" class="diceroll d20"><div class="dicon"><div class="didroll">14</div><div class="backing"></div></div></div>)</div>+3<div class="clear"></div></div><div class="clear"></div><strong>=</strong><div class="rolled">17</div></div>
+    `
+
+    const expected = new Rolls([new Roll('Flint', 17)])
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
 })

@@ -40,7 +40,14 @@ const renderGameMasterMessage = (message) => {
 };
 const renderRolls = (rolls) => rolls
     .rolls
-    .map((roll) => `  <p>${playedBy[roll.roller]} rolled a ${roll.result} for ${roll.roller}'s ${roll.check} check.</p>\n`)
+    .map((roll) => {
+    if (roll.check === undefined) {
+        return `  <p>${playedBy[roll.roller]} rolled a ${roll.result}.</p>\n`;
+    }
+    else {
+        return `  <p>${playedBy[roll.roller]} rolled a ${roll.result} for ${roll.roller}'s ${roll.check} check.</p>\n`;
+    }
+})
     .join('');
 const renderMessage = (message) => {
     switch (message.kind) {

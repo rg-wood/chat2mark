@@ -4,14 +4,30 @@ import * as cheerio from 'cheerio'
 const capitalize: (s: string) => string = (s: string) =>
   s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase())
 
-const parseRoll: (message: cheerio.Selector) => Rolls = (message: cheerio.Selector) =>
-  new Rolls([
-    new Roll(
+const parseRollResult: (message: cheerio.Selector) => number = (message: cheerio.Selector) => {
+  if (message('.inlinerollresult').length > 0) {
+    return parseInt(message('.inlinerollresult').slice(0, 1).text())
+  } else {
+    return parseInt(message('.rolled').slice(0, 1).text())
+  }
+}
+
+const parseRoll: (message: cheerio.Selector) => Rolls = (message: cheerio.Selector) => {
+  const check = message('.sheet-label').text().trim().split(' ')[0]
+
+  if (check === '') {
+    return new Rolls([new Roll(
       message('.by').text().replace(/:$/, ''),
-      parseInt(message('.inlinerollresult').slice(0, 1).text()),
-      capitalize(message('.sheet-label').text().trim().split(' ')[0])
-    )
-  ])
+      parseRollResult(message)
+    )])
+  } else {
+    return new Rolls([new Roll(
+      message('.by').text().replace(/:$/, ''),
+      parseRollResult(message),
+      capitalize(check)
+    )])
+  }
+}
 
 const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => PlayerMessage | GameMasterMessage = (message: cheerio.Selector, element: cheerio.Element) => {
   const actor = message('.by').text().replace(/:$/, '')
@@ -78,16 +94,18 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
 const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.Element) => {
   const message = cheerio.load(element)
 
-  if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
+  if (element.attribs.class.includes('private')) {
+    return new Private()
+  } else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
+    return parseRoll(message)
+  } else if (element.attribs.class.includes('rollresult')) {
     return parseRoll(message)
   } else if (element.attribs.class.includes('general')) {
     return parseSpeech(message, element)
   } else if (element.attribs.class.includes('emote')) {
     return parsePlayerAction(message, element)
-  } else if (element.attribs.class.includes('private')) {
-    return new Private()
   } else {
-    throw new Error(`Unrecognised message: ${message.html()}`)
+    throw new Error(`Unrecognised message for classes=[${element.attribs.class}]: ${message.html()}`)
   }
 
 }
