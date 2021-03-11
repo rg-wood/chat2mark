@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convert = void 0;
+exports.preprocess = exports.convert = void 0;
 const parse_1 = require("./parse");
 const collect_1 = require("./collect");
 const shorten_1 = require("./shorten");
@@ -10,5 +10,7 @@ const stop_1 = require("./stop");
 const empty_1 = require("./empty");
 const orphan_1 = require("./orphan");
 const markdown_1 = require("./markdown");
+const csv_1 = require("./csv");
 const function_1 = require("fp-ts/lib/function");
 exports.convert = function_1.flow(parse_1.parseChat, shorten_1.shorten, collect_1.collect, split_quotes_1.splitQuotes, capitalise_1.capitaliseMessages, stop_1.stop, orphan_1.orphan, empty_1.empty, markdown_1.toMarkdown);
+exports.preprocess = function_1.flow(parse_1.parseChat, shorten_1.shorten, collect_1.collect, split_quotes_1.splitQuotes, capitalise_1.capitaliseMessages, stop_1.stop, orphan_1.orphan, empty_1.empty, csv_1.toCsv);

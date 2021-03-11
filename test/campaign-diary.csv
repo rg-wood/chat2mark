@@ -1,0 +1,178 @@
+kind,subkind,actor,message,action,result,check
+player,,"Ba'Raknul"
+,speech,,"Er, nothing."
+player,,"Biron"
+,action,,,"pauses then sits back to relaxin and preparing food."
+player,,"Orin"
+,action,,,"gives Biron a confused look, then turns to Quinn."
+player,,"Quinn"
+,speech,,"Em sighs ''Last time I was this close to the ocean I was fishing me'self out of it. Pirates you see... damn cut throats and scallywags every one of em.''"
+player,,"Orin"
+,speech,,"I guess... I'm glad for you?"
+player,,"Quinn"
+,partial,,"... I almost wish I hadn't joined em.","sighs"
+player,,"Orin"
+,action,,,"raises an eyebrow at Quinn."
+,speech,,"You do have an awful lot of stories."
+player,,"Quinn"
+,partial,,"Part of the joy of being without a roof over the head. Tends to blow a man around like a leaf on the wind.","bows his head"
+player,,"Biron"
+,action,,,"cooks up the crabs and fish. and squashes the berry into a jam/juice."
+player,,"Quinn"
+,partial,,"Course, now I've found meself a loving family in the Griffon, and no mistake. Blessed I am, for sure.","smiles"
+player,,"Orin"
+,speech,,"I suppose. I hadn't any experience like that until a couple months ago."
+player,,"Quinn"
+,partial,,"Found yourself working as lookout for a blind pirate captain a couple of months back?","raises an eyebrow"
+player,,"Orin"
+,speech,,"Er, no... I mean... being on your own, wandering the world and such."
+player,,"Biron"
+,partial,,"Best way to learn.","grumbles"
+player,,"Orin"
+,action,,,"clears their throat."
+,speech,,"That's what being in the company is to me, anyway."
+,action,,,"gets up and goes to sit by the shore before waiting for an answer."
+player,,"Quinn"
+,partial,,"Well, ya not on your own none now, ya family, friend! Like it or no!","grins and slaps Orin on the back"
+,action,,,"sighs as his hand whistles past the departing Orin."
+gm
+,speech,,"The fish broth Biron prepares goes down easier than the seagull. And guards against the chilling night are creeping into the cave. You all feel the warmth of a good meal sitting in your guts as the weariness of your limbs commands attention."
+player,,"Quinn"
+,action,,,"lays on his back on the sand, one hand on his full belly and drifts off to sleep."
+player,,"Orin"
+,action,,,"shouts to the others:"
+,speech,,"I'll take first watch."
+,action,,,"turns back to watch the waves."
+player,,"Biron"
+,action,,,"looks slightly surprised by this."
+,action,,,"gets lower to the floor and nods."
+,speech,,"I'll take second."
+gm
+,speech,,"Biron seems to fall asleep immediately, as is his manner. Soon followed by a weary Quinn. And so Orin's watch begins."
+,speech,,"It is roughly midnight when Orin wakes Biron for his watch, nothing untoward other than flocks of birds having troubled their watch."
+,speech,,"And so, in the pitch of night Biron wakes Quinn for the last watch before falling dead asleep again."
+player,,"Quinn"
+,action,,,"grunts and dons his armour then slumps down in the low entryway with his bow over his lap."
+gm
+,speech,,"At first much seems quiet. Gulls screech. The waves crash. It is peaceful, if cold."
+,speech,,"Then you hear... something."
+,speech,,"At first Quinn think it is then wind but as the sound gets louder... yes... it is clear... someone whistling a jaunty tune!"
+player,,"Quinn"
+,action,,,"crawls back into the cave and shakes Biron, then Orin."
+,speech,,"Wake up, someone comes!"
+gm
+,speech,,"The pair wake with a start, a little weary to be startled at such an hour."
+player,,"Biron"
+,action,,,"wakes eyes wide and whips up to a (very tight) crouch position."
+player,,"Orin"
+,action,,,"grabs their bow and arrow, sneaking up to the edges of the cave, watching."
+rolls
+,roll,"Orin",,,20,"Perception"
+,roll,"Quinn Wheatsteal",,,20,"Perception"
+private
+private
+gm
+,speech,,"The tide is still high, but with the little light from the embers of your fire you can see the narrow beach is empty."
+player,,"Biron"
+,action,,,"gestures to Orin to pull back a lil."
+gm
+,speech,,"The sound of whistling is getting closer... and higher... it appears to be coming from the cliffs above: someone walking along the coastal path?"
+,speech,,"But who would be travelling at this hour?"
+player,,"Biron"
+,action,,,"puts finger to his lips and pulls his shield off his back. presses against the walls of the cave."
+player,,"Quinn"
+,partial,,"Well, sounded like a person, could be the wind whistling through the nooks and crinnies of the cliff some though...","grins apologetically"
+,action,,,"lowers his voice and grins at Biron."
+player,,"Orin"
+,speech,,"I'm going to look."
+player,,"Biron"
+,partial,,"Do you recognise the tune?","looks at Quinn and whispers."
+player,,"Quinn"
+,action,,,"listens intently."
+player,,"Biron"
+,action,,,"puts his hand towards Orin."
+player,,"Orin"
+,action,,,"crouches, nearly crawling along the cliffside..."
+player,,"Biron"
+,speech,,""Let me try. you keep your bow on me""
+gm
+,speech,,"Now that Biron mentions it, it does sound familiar to Quinn. Perhaps a seafaring shanty, though Quinn cannot quite put his finger on which."
+player,,"Orin"
+,action,,,"looks at Biron with concern."
+,speech,,"Okay."
+player,,"Biron"
+,action,,,"nods to him."
+gm
+,speech,,"You can now see a glow coming from the bluffs above, as though from a lantern."
+,speech,,"It wavers about in the air, as though the holder is walking ."
+player,,"Quinn"
+,partial,,"Sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...","scratches his head"
+rolls
+,roll,"Biron",,,20,"Stealth"
+player,,"Biron"
+,action,,,"creeps from the cave and up slowly towards the sound."
+player,,"Quinn"
+,action,,,"draws his bow and knocks an arrow, squinting to try and keep his eyes on Biron."
+private
+private
+private
+player,,"Orin"
+,action,,,"tosses sand on the fire's coals."
+private
+gm
+,speech,,"Biron cautiously climbs the rocks leading back up to the path, quickly and quietly for a man of his size."
+player,,"Biron"
+,action,,,"stays low and stays close to the rock face."
+gm
+,speech,,"Coming along the coastal path you spy what appears to be a man wearing a tricorn hat. He carries a lantern hanging from the end of a long pole."
+,speech,,"However, it is not him whistling!!"
+,speech,,"Upon his shoulder sits a black crow, whistling a tune like any human might."
+player,,"Biron"
+,action,,,"crouches low to the ground and behind some rocks and bushes and keeps an eye on them."
+gm
+,speech,,"As he approaches you can see the man is clearly much enjoying his stroll. He swings his arm and steps forward as though without a care in the world, in tune to the crow's whistling."
+,speech,,"A nasty looking mace hangs from his belt, but then who wouldn't carry a weapon in such a remote spot as this?"
+player,,"Biron"
+,action,,,"looks for any tattoos, symbols or markings on the stranger or his weapons."
+gm
+,speech,,"Nothing else untoward. He bears leather armour, and a coat that has seen better days. Its pockets jangle, perhaps with coin?"
+private
+private
+private
+private
+private
+player,,"Biron"
+,action,,,"lays in waits. Looks down back to Orin to see how far away they are."
+private
+private
+private
+private
+private
+gm
+,speech,,"The man with the tricorn hat continues to pass by without a fuss, the whistling and light dimming into the distance."
+,speech,,"Biron waits a while before he moves... but not before he catches a glimpse of something else moving down the path: four large folks, brandishing maces follow close behind, with obvious ill intent!"
+,speech,,"They do not appear to have seen you, but are following the man along the path."
+player,,"Biron"
+,action,,,"stays silent and watches."
+gm
+,speech,,"The four men pass by, treading softly and carefully after the man with the crow."
+,speech,,"They soon disappear into the night as well."
+player,,"Biron"
+,action,,,"moves back to the cave."
+player,,"Quinn"
+,partial,,"Anything of import?","looks to Biron"
+player,,"Biron"
+,partial,,"Nothin we need worry about.","grunts"
+player,,"Orin"
+,action,,,"furrows their brow at Biron."
+player,,"Quinn"
+,partial,,"Ye ain't coming closer guv'nor.","mutters"
+private
+rolls
+,roll,"Orin",,,16,"Shortbow"
+player,,""
+,speech,,"COMMONWEALTH TRAITOR!"
+player,,"Orin"
+,action,,,"whispers:"
+,speech,,"Slowly."
+,speech,,"We're being followed."

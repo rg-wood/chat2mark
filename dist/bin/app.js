@@ -10,7 +10,7 @@ class App {
     initialize() {
         this.program
             .version(this.package.version)
-            .command('convert <input> <output>', 'Convert Roll20 chat HTML to markdown post.')
+            .command('convert <input> <output> [-p]', 'Convert Roll20 chat HTML to markdown post.')
             .parse(process.argv);
     }
 }

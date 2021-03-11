@@ -20,7 +20,9 @@ export class Rolls {
 
 export class Roll {
 
-  public constructor (readonly roller: string, readonly result: number, readonly check?: string) {
+  public readonly kind = 'roll'
+
+  public constructor (readonly actor: string, readonly result: number, readonly check?: string) {
   }
 
 }

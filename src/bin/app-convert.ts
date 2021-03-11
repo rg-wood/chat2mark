@@ -1,5 +1,5 @@
 import * as commander from 'commander'
-import { convert } from '../convert'
+import { convert, preprocess } from '../convert'
 import * as fs from 'fs-extra'
 
 export class Convert {
@@ -17,10 +17,15 @@ export class Convert {
     this.program
       .version(this.package.version)
       .arguments('<input> <output>')
-      .action((input, output) => {
-        if (typeof input === 'string' && typeof output === 'string') {
+      .option('-p, --preprocess', 'Output pre-processed CSV data only')
+      .action((input, output, options) => {
+        const doPreprocess = options.preprocess !== undefined && options.preprocess
+
+        if (typeof input === 'string' && typeof output === 'string' && typeof doPreprocess === 'boolean') {
           const html = fs.readFileSync(input, 'utf8')
-          fs.writeFileSync(output, convert(html))
+
+          if (doPreprocess) fs.writeFileSync(output, preprocess(html))
+          else fs.writeFileSync(output, convert(html))
         }
       })
       .parse(process.argv)

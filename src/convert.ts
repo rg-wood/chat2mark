@@ -7,6 +7,7 @@ import { stop } from './stop'
 import { empty } from './empty'
 import { orphan } from './orphan'
 import { toMarkdown } from './markdown'
+import { toCsv } from './csv'
 import { flow } from 'fp-ts/lib/function'
 
 export const convert: (html: string) => string = flow(
@@ -19,4 +20,16 @@ export const convert: (html: string) => string = flow(
   orphan,
   empty,
   toMarkdown
+)
+
+export const preprocess: (html: string) => string = flow(
+  parseChat,
+  shorten,
+  collect,
+  splitQuotes,
+  capitaliseMessages,
+  stop,
+  orphan,
+  empty,
+  toCsv
 )

@@ -13,10 +13,15 @@ class Convert {
         this.program
             .version(this.package.version)
             .arguments('<input> <output>')
-            .action((input, output) => {
-            if (typeof input === 'string' && typeof output === 'string') {
+            .option('-p, --preprocess', 'Output pre-processed CSV data only')
+            .action((input, output, options) => {
+            const doPreprocess = options.preprocess !== undefined && options.preprocess;
+            if (typeof input === 'string' && typeof output === 'string' && typeof doPreprocess === 'boolean') {
                 const html = fs.readFileSync(input, 'utf8');
-                fs.writeFileSync(output, convert_1.convert(html));
+                if (doPreprocess)
+                    fs.writeFileSync(output, convert_1.preprocess(html));
+                else
+                    fs.writeFileSync(output, convert_1.convert(html));
             }
         })
             .parse(process.argv);

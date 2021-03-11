@@ -39,4 +39,16 @@ describe('chat2mark', () => {
       assert.strictEqual(expectedMarkdown, actualMarkdown)
     })
   })
+
+  it('should convert Roll20 chat HTML to preprocessed CSV', () => {
+    withTestFolder(folder => {
+      const actualCsvFile = `${folder}/actual.csv`
+      chat2mark(['convert', '-p', 'test/roll20.html', actualCsvFile])
+
+      const actualMarkdown = fs.readFileSync(actualCsvFile, 'utf8')
+      const expectedMarkdown = fs.readFileSync('test/campaign-diary.csv', 'utf8')
+
+      assert.strictEqual(expectedMarkdown, actualMarkdown)
+    })
+  })
 })
