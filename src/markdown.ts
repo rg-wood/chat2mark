@@ -8,7 +8,9 @@ const playedBy: { [character: string]: string } = {
   Orin: 'Morgan',
   Quinn: 'Mark',
   'Quinn Wheatsteal': 'Mark',
-  Willem: 'Gaston'
+  Willem: 'Gaston',
+  Lia: 'Hope',
+  Red: 'Kat'
 }
 
 const renderEvent: (event: PlayerEvent) => string = (event: PlayerEvent) => {
