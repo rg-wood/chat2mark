@@ -14,14 +14,21 @@ class Convert {
             .version(this.package.version)
             .arguments('<input> <output>')
             .option('-p, --preprocess', 'Output pre-processed CSV data only')
+            .option('-r, --postprocess', 'Output pre-processed CSV data only')
             .action((input, output, options) => {
             const doPreprocess = options.preprocess !== undefined && options.preprocess;
-            if (typeof input === 'string' && typeof output === 'string' && typeof doPreprocess === 'boolean') {
-                const html = fs.readFileSync(input, 'utf8');
+            const doPostprocess = options.postprocess !== undefined && options.postprocess;
+            if (typeof input === 'string' &&
+                typeof output === 'string' &&
+                typeof doPreprocess === 'boolean' &&
+                typeof doPostprocess === 'boolean') {
+                const body = fs.readFileSync(input, 'utf8');
                 if (doPreprocess)
-                    fs.writeFileSync(output, convert_1.preprocess(html));
+                    fs.writeFileSync(output, convert_1.preprocess(body));
+                else if (doPostprocess)
+                    fs.writeFileSync(output, convert_1.postprocess(body));
                 else
-                    fs.writeFileSync(output, convert_1.convert(html));
+                    fs.writeFileSync(output, convert_1.convert(body));
             }
         })
             .parse(process.argv);

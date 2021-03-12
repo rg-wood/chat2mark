@@ -167,7 +167,7 @@ id:
 <dd class="action">crouches, nearly crawling along the cliffside...</dd>
 
 <dt>Biron</dt>
-<dd>"Let me try. you keep your bow on me"</dd>
+<dd>Let me try. you keep your bow on me.</dd>
 </dl>
 
 <p>Now that Biron mentions it, it does sound familiar to Quinn. Perhaps a seafaring shanty, though Quinn cannot quite put his finger on which.</p>

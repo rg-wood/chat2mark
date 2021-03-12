@@ -1,5 +1,5 @@
 import * as commander from 'commander'
-import { convert, preprocess } from '../convert'
+import { convert, preprocess, postprocess } from '../convert'
 import * as fs from 'fs-extra'
 
 export class Convert {
@@ -18,14 +18,22 @@ export class Convert {
       .version(this.package.version)
       .arguments('<input> <output>')
       .option('-p, --preprocess', 'Output pre-processed CSV data only')
+      .option('-r, --postprocess', 'Output pre-processed CSV data only')
       .action((input, output, options) => {
         const doPreprocess = options.preprocess !== undefined && options.preprocess
+        const doPostprocess = options.postprocess !== undefined && options.postprocess
 
-        if (typeof input === 'string' && typeof output === 'string' && typeof doPreprocess === 'boolean') {
-          const html = fs.readFileSync(input, 'utf8')
+        if (
+          typeof input === 'string' &&
+          typeof output === 'string' &&
+          typeof doPreprocess === 'boolean' &&
+          typeof doPostprocess === 'boolean'
+        ) {
+          const body = fs.readFileSync(input, 'utf8')
 
-          if (doPreprocess) fs.writeFileSync(output, preprocess(html))
-          else fs.writeFileSync(output, convert(html))
+          if (doPreprocess) fs.writeFileSync(output, preprocess(body))
+          else if (doPostprocess) fs.writeFileSync(output, postprocess(body))
+          else fs.writeFileSync(output, convert(body))
         }
       })
       .parse(process.argv)
