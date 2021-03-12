@@ -17,8 +17,8 @@ export class Convert {
     this.program
       .version(this.package.version)
       .arguments('<input> <output>')
-      .option('-p, --preprocess', 'Output pre-processed CSV data only')
-      .option('-r, --postprocess', 'Output pre-processed CSV data only')
+      .option('-p, --preprocess', 'output pre-processed CSV data only')
+      .option('-r, --postprocess', 'post-process CSV data')
       .action((input, output, options) => {
         const doPreprocess = options.preprocess !== undefined && options.preprocess
         const doPostprocess = options.postprocess !== undefined && options.postprocess
