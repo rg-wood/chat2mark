@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.empty = void 0;
 const messages_1 = require("./messages");
 const emptyMessage = (event) => (event.message !== undefined && event.message.trim() !== '');
-const emptyRoll = (roll) => (roll.roller !== undefined && roll.check !== undefined && roll.roller.trim() !== '' && roll.check.trim() !== '');
+const emptyRoll = (roll) => (roll.actor !== undefined && roll.check !== undefined && roll.actor.trim() !== '' && roll.check.trim() !== '');
 exports.empty = (messages) => {
     const filtered = messages.map(message => {
         switch (message.kind) {

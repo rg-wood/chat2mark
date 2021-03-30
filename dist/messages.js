@@ -17,10 +17,11 @@ class Rolls {
 }
 exports.Rolls = Rolls;
 class Roll {
-    constructor(roller, result, check) {
-        this.roller = roller;
+    constructor(actor, result, check) {
+        this.actor = actor;
         this.result = result;
         this.check = check;
+        this.kind = 'roll';
     }
 }
 exports.Roll = Roll;

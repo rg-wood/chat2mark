@@ -8,7 +8,9 @@ const playedBy: { [character: string]: string } = {
   Orin: 'Morgan',
   Quinn: 'Mark',
   'Quinn Wheatsteal': 'Mark',
-  Willem: 'Gaston'
+  Willem: 'Gaston',
+  Lia: 'Hope',
+  Red: 'Kat'
 }
 
 const renderEvent: (event: PlayerEvent) => string = (event: PlayerEvent) => {
@@ -52,9 +54,9 @@ const renderRolls: (rolls: Rolls) => string = (rolls: Rolls) =>
     .rolls
     .map((roll) => {
       if (roll.check === undefined) {
-        return `  <p>${playedBy[roll.roller]} rolled a ${roll.result}.</p>\n`
+        return `  <p>${playedBy[roll.actor]} rolled a ${roll.result}.</p>\n`
       } else {
-        return `  <p>${playedBy[roll.roller]} rolled a ${roll.result} for ${roll.roller}'s ${roll.check} check.</p>\n`
+        return `  <p>${playedBy[roll.actor]} rolled a ${roll.result} for ${roll.actor}'s ${roll.check} check.</p>\n`
       }
     })
     .join('')

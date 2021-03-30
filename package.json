@@ -1,6 +1,6 @@
 {
   "name": "chat2mark",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Script to convert Roll20 Chat logs to Markdown campaign diaries.",
   "repository": "https://github.com/rg-wood/chat2mark",
   "license": "MIT",
@@ -60,6 +60,7 @@
     "cheerio": "^1.0.0-rc.3",
     "commander": "^6.1.0",
     "common-tags": "^1.8.0",
+    "csv-parse": "^4.15.3",
     "fp-ts": "^2.8.4",
     "fs-extra": "^9.0.1"
   }

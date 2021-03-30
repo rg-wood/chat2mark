@@ -11,10 +11,11 @@ export declare class Rolls {
     constructor(rolls: Roll[]);
 }
 export declare class Roll {
-    readonly roller: string;
+    readonly actor: string;
     readonly result: number;
     readonly check?: string | undefined;
-    constructor(roller: string, result: number, check?: string | undefined);
+    readonly kind = "roll";
+    constructor(actor: string, result: number, check?: string | undefined);
 }
 export declare class Private {
     readonly kind = "private";

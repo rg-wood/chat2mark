@@ -4,7 +4,7 @@ const emptyMessage: (event: PlayerEvent) => boolean = (event: PlayerEvent) =>
   (event.message !== undefined && event.message.trim() !== '')
 
 const emptyRoll: (roll: Roll) => boolean = (roll: Roll) =>
-  (roll.roller !== undefined && roll.check !== undefined && roll.roller.trim() !== '' && roll.check.trim() !== '')
+  (roll.actor !== undefined && roll.check !== undefined && roll.actor.trim() !== '' && roll.check.trim() !== '')
 
 export const empty: (messages: Message[]) => Message[] = (messages: Message[]) => {
   const filtered = messages.map(message => {
