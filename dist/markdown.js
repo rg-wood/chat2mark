@@ -9,7 +9,9 @@ const playedBy = {
     Orin: 'Morgan',
     Quinn: 'Mark',
     'Quinn Wheatsteal': 'Mark',
-    Willem: 'Gaston'
+    Willem: 'Gaston',
+    Lia: 'Hope',
+    Red: 'Kat'
 };
 const renderEvent = (event) => {
     switch (event.kind) {
