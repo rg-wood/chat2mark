@@ -1,30 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PartialAction = exports.Speech = exports.Action = exports.GameMasterMessage = exports.Private = exports.Roll = exports.Rolls = exports.PlayerMessage = void 0;
-class PlayerMessage {
-    constructor(actor, events) {
+exports.Roll = exports.Speech = exports.Action = exports.GameMasterMessage = exports.Private = exports.ActorMessage = void 0;
+class ActorMessage {
+    constructor(actor, event) {
         this.actor = actor;
-        this.events = events;
-        this.kind = 'player';
+        this.event = event;
+        this.kind = 'actor';
     }
 }
-exports.PlayerMessage = PlayerMessage;
-class Rolls {
-    constructor(rolls) {
-        this.rolls = rolls;
-        this.kind = 'rolls';
-    }
-}
-exports.Rolls = Rolls;
-class Roll {
-    constructor(actor, result, check) {
-        this.actor = actor;
-        this.result = result;
-        this.check = check;
-        this.kind = 'roll';
-    }
-}
-exports.Roll = Roll;
+exports.ActorMessage = ActorMessage;
 class Private {
     constructor() {
         this.kind = 'private';
@@ -32,8 +16,8 @@ class Private {
 }
 exports.Private = Private;
 class GameMasterMessage {
-    constructor(events) {
-        this.events = events;
+    constructor(message) {
+        this.message = message;
         this.kind = 'gm';
     }
 }
@@ -41,22 +25,21 @@ exports.GameMasterMessage = GameMasterMessage;
 class Action {
     constructor(message) {
         this.message = message;
-        this.kind = 'action';
+        this.kind = 'does';
     }
 }
 exports.Action = Action;
 class Speech {
     constructor(message) {
         this.message = message;
-        this.kind = 'speech';
+        this.kind = 'says';
     }
 }
 exports.Speech = Speech;
-class PartialAction {
-    constructor(action, message) {
-        this.action = action;
+class Roll {
+    constructor(message) {
         this.message = message;
-        this.kind = 'partial';
+        this.kind = 'rolls';
     }
 }
-exports.PartialAction = PartialAction;
+exports.Roll = Roll;

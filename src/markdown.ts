@@ -46,7 +46,7 @@ const renderGameMasterMessage: (message: GameMasterMessage) => string = (message
   const postamble = stripIndent`
     <dl>`
 
-  return preamble + '\n\n' + messages + '\n\n' + postamble
+  return `${preamble}\n\n${messages}\n\n${postamble}`
 }
 
 const renderRolls: (rolls: Rolls) => string = (rolls: Rolls) =>

@@ -59,7 +59,7 @@ const parseMessage = (group) => {
 const parsePlayerMessage = (group) => {
     const [message, ...events] = group;
     if (message.actor !== undefined)
-        return new messages_1.PlayerMessage(message.actor, events.map(parseEvents));
+        return new PlayerMessage(message.actor, events.map(parseEvents));
     else
         throw new Error('corrupt message');
 };
@@ -86,7 +86,7 @@ const parseAction = (event) => {
 const parsePartial = (event) => {
     if (event.action !== undefined &&
         event.message !== undefined)
-        return new messages_1.PartialAction(event.action, event.message);
+        return new PartialAction(event.action, event.message);
     else
         throw new Error('corrupt message');
 };
@@ -96,7 +96,7 @@ const parseGameMasterMessage = (group) => {
 };
 const parseRolls = (group) => {
     const events = group.slice(1);
-    return new messages_1.Rolls(events.map(parseRoll));
+    return new Rolls(events.map(parseRoll));
 };
 const parseRoll = (event) => {
     if (event.actor !== undefined &&

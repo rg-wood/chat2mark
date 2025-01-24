@@ -38,7 +38,7 @@ const renderGameMasterMessage = (message) => {
     const messages = message.events.map(event => `<p>${event.message}</p>`).join('\n\n');
     const postamble = common_tags_1.stripIndent `
     <dl>`;
-    return preamble + '\n\n' + messages + '\n\n' + postamble;
+    return `${preamble}\n\n${messages}\n\n${postamble}`;
 };
 const renderRolls = (rolls) => rolls
     .rolls

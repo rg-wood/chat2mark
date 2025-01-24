@@ -1,44 +1,31 @@
-export declare type Message = PlayerMessage | Rolls | Private | GameMasterMessage;
-export declare class PlayerMessage {
+export declare type Message = ActorMessage | Private | GameMasterMessage;
+export declare class ActorMessage {
     readonly actor: string;
-    readonly events: PlayerEvent[];
-    readonly kind = "player";
-    constructor(actor: string, events: PlayerEvent[]);
-}
-export declare class Rolls {
-    readonly rolls: Roll[];
-    readonly kind = "rolls";
-    constructor(rolls: Roll[]);
-}
-export declare class Roll {
-    readonly actor: string;
-    readonly result: number;
-    readonly check?: string | undefined;
-    readonly kind = "roll";
-    constructor(actor: string, result: number, check?: string | undefined);
+    readonly event: PlayerEvent;
+    readonly kind = "actor";
+    constructor(actor: string, event: PlayerEvent);
 }
 export declare class Private {
     readonly kind = "private";
 }
 export declare class GameMasterMessage {
-    readonly events: Speech[];
+    readonly message: string;
     readonly kind = "gm";
-    constructor(events: Speech[]);
+    constructor(message: string);
 }
-export declare type PlayerEvent = Action | Speech | PartialAction;
+export declare type PlayerEvent = Action | Speech;
 export declare class Action {
     readonly message: string;
-    readonly kind = "action";
+    readonly kind = "does";
     constructor(message: string);
 }
 export declare class Speech {
     readonly message: string;
-    readonly kind = "speech";
+    readonly kind = "says";
     constructor(message: string);
 }
-export declare class PartialAction {
-    readonly action: string;
+export declare class Roll {
     readonly message: string;
-    readonly kind = "partial";
-    constructor(action: string, message: string);
+    readonly kind = "rolls";
+    constructor(message: string);
 }
