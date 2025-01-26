@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shorten = void 0;
-const messages_1 = require("./messages");
 const shortenedNames = {
     'Quinn Wheatsteal': 'Quinn',
     'Sergeant Agata': 'Agata',
@@ -9,11 +8,8 @@ const shortenedNames = {
     'Ba\' Raknul': 'Ba\'Raknul',
     'Ric (GM)': 'GM'
 };
-const shortenName = (message) => new messages_1.PlayerMessage((shortenedNames[message.actor] != null && shortenedNames[message.actor]) || message.actor, message.events);
-const shortenNames = (message) => {
-    switch (message.kind) {
-        case 'player': return shortenName(message);
-        default: return message;
-    }
-};
-exports.shorten = (messages) => messages.map(shortenNames);
+exports.shorten = (messages) => messages
+    .map((message) => {
+    const shortened = Object.assign(Object.assign({}, message), { actor: shortenedNames[message.actor] !== undefined ? shortenedNames[message.actor] : message.actor });
+    return shortened;
+});

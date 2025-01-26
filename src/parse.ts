@@ -4,32 +4,33 @@ import * as cheerio from 'cheerio'
 const capitalize: (s: string) => string = (s: string) =>
   s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase())
 
-const parseRollResult: (message: cheerio.Selector) => number = (message: cheerio.Selector) => {
+const parseRollResult: (message: cheerio.Selector) => string = (message: cheerio.Selector) => {
   if (message('.inlinerollresult').length > 0) {
-    return parseInt(message('.inlinerollresult').slice(0, 1).text())
+    return message('.inlinerollresult').slice(0, 1).text()
   } else {
-    return parseInt(message('.rolled').slice(0, 1).text())
+    return message('.rolled').slice(0, 1).text()
   }
 }
 
-const parseRoll: (message: cheerio.Selector) => Rolls = (message: cheerio.Selector) => {
+const parseRoll: (message: cheerio.Selector) => Message = (message: cheerio.Selector) => {
   const check = message('.sheet-label').text().trim().split(' ')[0]
 
   if (check === '') {
-    return new Rolls([new Roll(
+    return new Message(
       message('.by').text().replace(/:$/, ''),
+      'rolls',
       parseRollResult(message)
-    )])
+    )
   } else {
-    return new Rolls([new Roll(
+    return new Message(
       message('.by').text().replace(/:$/, ''),
-      parseRollResult(message),
-      capitalize(check)
-    )])
+      'rolls',
+      `${capitalize(check)}: ${parseRollResult(message)}`
+    )
   }
 }
 
-const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => PlayerMessage | GameMasterMessage = (message: cheerio.Selector, element: cheerio.Element) => {
+const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => Message = (message: cheerio.Selector, element: cheerio.Element) => {
   const actor = message('.by').text().replace(/:$/, '')
 
   const speech =
@@ -41,9 +42,9 @@ const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => Play
       .trim()
 
   /* eslint-disable */
-  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new PlayerMessage(actor, [new Speech(speech)])
+  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new Message(actor, 'says', speech)
   /* eslint-enable */
-  else return new GameMasterMessage([new Speech(speech)])
+  else return new Message('GM', 'says', speech)
 }
 
 const nonCapitalisedWord = /^[a-z]/
@@ -55,19 +56,6 @@ const indexOfName: (words: string[]) => number = (words: string[]) => {
     return 2
   } else {
     return words.findIndex(firstNonCapitalisedWord)
-  }
-}
-
-const partialAction = /^([^,]*),? ("|')(.*)\2$/
-
-const parseAction: (action: string) => Action | PartialAction = (action: string) => {
-  /* eslint-disable */
-  const match = action.replace(/''/g, `"`).match(partialAction)
-  /* eslint-enable */
-  if (match != null) {
-    return new PartialAction(match[1], match[3])
-  } else {
-    return new Action(action)
   }
 }
 
@@ -88,7 +76,7 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
   return new Message(
     name.join(' '),
     'does',
-    [parseAction(action.join(' '))]
+    action.join(' ')
   )
 }
 

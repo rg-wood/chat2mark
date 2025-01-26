@@ -1,2 +1,2 @@
-import { Message } from './messages';
-export declare const shorten: (messages: Message[]) => Message[];
+import { MessageFilter } from './messages';
+export declare const shorten: MessageFilter;

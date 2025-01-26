@@ -5,3 +5,4 @@ export declare class Message {
     constructor(actor: string, type: PlayerEvent, message: string);
 }
 export declare type PlayerEvent = 'does' | 'says' | 'rolls';
+export declare type MessageFilter = (message: Message[]) => Message[];

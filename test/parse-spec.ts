@@ -1,5 +1,5 @@
 import { parseChat } from '../src/parse'
-import { PlayerMessage, GameMasterMessage, Action, Speech, PartialAction, Rolls, Roll, Private } from '../src/messages'
+import { Message } from '../src/messages'
 import * as chai from 'chai'
 
 const expect = chai.expect
@@ -13,7 +13,7 @@ describe('parseChat()', () => {
       You do have an awful lot of stories.
     </div>`
 
-    const expected = new PlayerMessage('Orin', [new Speech('You do have an awful lot of stories.')])
+    const expected = new Message('Orin', 'says', 'You do have an awful lot of stories.')
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -23,7 +23,7 @@ describe('parseChat()', () => {
         Orin raises an eyebrow at Quinn.
     </div>`
 
-    const expected = new PlayerMessage('Orin', [new Action('raises an eyebrow at Quinn.')])
+    const expected = new Message('Orin', 'does', 'raises an eyebrow at Quinn.')
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -33,7 +33,7 @@ describe('parseChat()', () => {
         Quinn Wheatsteal raises an eyebrow at Orin.
     </div>`
 
-    const expected = new PlayerMessage('Quinn Wheatsteal', [new Action('raises an eyebrow at Orin.')])
+    const expected = new Message('Quinn Wheatsteal', 'does', 'raises an eyebrow at Orin.')
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -43,7 +43,7 @@ describe('parseChat()', () => {
         The soldier raises an eyebrow at Orin.
     </div>`
 
-    const expected = new PlayerMessage('The soldier', [new Action('raises an eyebrow at Orin.')])
+    const expected = new Message('The soldier', 'does', 'raises an eyebrow at Orin.')
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -54,7 +54,7 @@ describe('parseChat()', () => {
         <div class='rolled'>9</div>
     </div>`
 
-    expect(parseChat(html)).to.deep.include.members([new Private()])
+    expect(parseChat(html)).to.deep.include.members([])
   })
 
   it('should parse simple roll message', () => {
@@ -82,53 +82,14 @@ describe('parseChat()', () => {
         </div>
     </div>`
 
-    expect(parseChat(html)).to.deep.include.members([new Rolls([new Roll('Biron', 20, 'Stealth')])])
-  })
-
-  it('should parse a partial action message', () => {
-    const html = `
-    <div class='message emote' data-messageid='-LiygrJkaQTP_Cmoi02m'>
-        Biron grunts, 'nothin we need worry about'
-    </div>`
-
-    const expected = new PlayerMessage('Biron', [new PartialAction('grunts', 'nothin we need worry about')])
-    expect(parseChat(html)).to.deep.include.members([expected])
-  })
-
-  it('should parse a partial action message with odd quotes', () => {
-    const html = `
-    <div class='message emote' data-messageid='-LiyoLUXGCdZQktKVOyL'>
-        <div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div>
-        <div class='spacer'></div>Quinn looks to Biron ''anything of import?''
-    </div>`
-
-    const expected = new PlayerMessage('Quinn', [new PartialAction('looks to Biron', 'anything of import?')])
-    expect(parseChat(html)).to.deep.include.members([expected])
-  })
-
-  it('should parse a partial action message with single quotes', () => {
-    const html = `
-    <div class='message emote' data-messageid='-Lf12oo2GiovZrIWyKUN'><div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div><div class='spacer'></div>Quinn Wheatsteal mutters 'ye ain't coming closer guv'nor'</div>`
-
-    const expected = new PlayerMessage('Quinn Wheatsteal', [new PartialAction('mutters', `ye ain't coming closer guv'nor`)])
-    expect(parseChat(html)).to.deep.include.members([expected])
-  })
-
-  it('should parse a partial action message with nested quotes', () => {
-    const html = `
-    <div class='message emote' data-messageid='-LiykmSm7MV55nWmHnVF'>
-    <div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div>
-    <div class='spacer'></div>Quinn Wheatsteal scratches his head ''sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...''</div>`
-
-    const expected = new PlayerMessage('Quinn Wheatsteal', [new PartialAction('scratches his head', `sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...`)])
-    expect(parseChat(html)).to.deep.include.members([expected])
+    expect(parseChat(html)).to.deep.include.members([new Message('Biron', 'rolls', 'Stealth: 20')])
   })
 
   it('should parse GM message', () => {
     const html = `
     <div class='message general you' data-messageid='-LiyoB1ePRmrDCSUjx8_'>They soon disappear into the night as well.</div>`
 
-    const expected = new GameMasterMessage([new Speech('They soon disappear into the night as well.')])
+    const expected = new Message('GM', 'says', 'They soon disappear into the night as well.')
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -136,7 +97,7 @@ describe('parseChat()', () => {
     const html = `
     <div class="message general" data-messageid="-Lf1-_168kjBpovxY3nn">We're being followed.</div>`
 
-    const expected = new PlayerMessage('', [new Speech(`We're being followed.`)])
+    const expected = new Message('', 'says', 'We\'re being followed.')
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -153,7 +114,7 @@ describe('parseChat()', () => {
       <div class="dicegrouping" data-groupindex="0">(<div data-origindex="0" class="diceroll d20"><div class="dicon"><div class="didroll">14</div><div class="backing"></div></div></div>)</div>+3<div class="clear"></div></div><div class="clear"></div><strong>=</strong><div class="rolled">17</div></div>
     `
 
-    const expected = new Rolls([new Roll('Flint', 17)])
+    const expected = new Message('Flint', 'rolls', '17')
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 

@@ -1,5 +1,5 @@
 import * as commander from 'commander'
-import { convert, preprocess, postprocess } from '../convert'
+import { preprocess } from '../convert'
 import * as fs from 'fs-extra'
 
 export class Convert {
@@ -31,9 +31,10 @@ export class Convert {
         ) {
           const body = fs.readFileSync(input, 'utf8')
 
-          if (doPreprocess) fs.writeFileSync(output, preprocess(body))
-          else if (doPostprocess) fs.writeFileSync(output, postprocess(body))
-          else fs.writeFileSync(output, convert(body))
+          fs.writeFileSync(output, preprocess(body))
+          // if (doPreprocess) fs.writeFileSync(output, preprocess(body))
+          // else if (doPostprocess) fs.writeFileSync(output, postprocess(body))
+          // else fs.writeFileSync(output, convert(body))
         }
       })
       .parse(process.argv)

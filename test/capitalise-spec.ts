@@ -13,7 +13,7 @@ describe('capitaliseMessages()', () => {
 
   it('should not capitalise action', () => {
     const message = new Message('Quinn', 'does', 'Grunts.')
-    expect(capitaliseMessages([message])).to.deep.include.members([new Message('Quinn', 'says', 'grunts.')])
+    expect(capitaliseMessages([message])).to.deep.include.members([new Message('Quinn', 'does', 'grunts.')])
   })
 
 

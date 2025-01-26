@@ -10,4 +10,4 @@ export class Message {
 
 export type PlayerEvent = 'does' | 'says' | 'rolls'
 
-export type MessageFilter = (message: Message) => Message[]
+export type MessageFilter = (message: Message[]) => Message[]

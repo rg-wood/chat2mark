@@ -6,19 +6,24 @@ function flatten<T> (arrays: T[][]): T[] {
 
 const quotes = /^(.*)("|'')(.*)("|'')(.*)$/
 
-const splitQuotesForAction: MessageFilter = (action: Message) => {
+const splitQuotesForAction: (action: Message) => Message[] = (action: Message) => {
   const match = action.message.match(quotes)
   if (match != null) {
-    return [
-      { ...action, message: match[1].trim() },
-      { ...action, type: 'says', message: match[3].trim() }
-    ]
+    const partialAction: Message = { ...action, message: match[1].trim() }
+    const speech: Message = { ...action, type: 'says', message: match[3].trim() }
+    console.log(partialAction)
+    console.log(speech)
+
+    return [partialAction, speech]
   } else return [action]
 }
 
-export const splitQuotes: MessageFilter = (message: Message) => {
-  switch(message.type) {
-    case 'does': splitQuotesForAction(message)
-    default: return [message]
-  }
-}
+export const splitQuotes: MessageFilter = (messages: Message[]) =>
+  flatten(
+    messages.map((message) => {
+      switch (message.type) {
+        case 'does': return splitQuotesForAction(message)
+        default: return [message]
+      }
+    })
+  )

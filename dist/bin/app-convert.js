@@ -23,12 +23,7 @@ class Convert {
                 typeof doPreprocess === 'boolean' &&
                 typeof doPostprocess === 'boolean') {
                 const body = fs.readFileSync(input, 'utf8');
-                if (doPreprocess)
-                    fs.writeFileSync(output, convert_1.preprocess(body));
-                else if (doPostprocess)
-                    fs.writeFileSync(output, convert_1.postprocess(body));
-                else
-                    fs.writeFileSync(output, convert_1.convert(body));
+                fs.writeFileSync(output, convert_1.preprocess(body));
             }
         })
             .parse(process.argv);

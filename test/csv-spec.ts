@@ -28,7 +28,7 @@ describe('toCsv()', () => {
   })
 
   it('should include simple roll message', () => {
-    expect(toCsv([new Message('Orin', 'rolls', 'Stealth')])).to.include(
+    expect(toCsv([new Message('Orin', 'rolls', 'Stealth (9)')])).to.include(
       stripIndent`
         "Orin",rolls,"Stealth (9)"
       `

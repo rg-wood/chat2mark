@@ -1,4 +1,4 @@
-import { Message } from './messages'
+import { Message, MessageFilter } from './messages'
 
 const capitalise: (s: string) => string = (s: string) =>
   s.charAt(0).toUpperCase().concat(s.slice(1))
@@ -14,5 +14,5 @@ const capitaliseMessage: (message: Message) => Message = (message: Message) => {
   }
 }
 
-export const capitaliseMessages: (messages: Message[]) => Message[] = (messages: Message[]) =>
+export const capitaliseMessages: MessageFilter = (messages: Message[]) =>
   messages.map(capitaliseMessage)

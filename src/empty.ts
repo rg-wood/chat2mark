@@ -1,27 +1,16 @@
-import { Message } from './messages'
+import { Message, MessageFilter } from './messages'
 
-const emptyMessage: (event: PlayerEvent) => boolean = (event: PlayerEvent) =>
+const emptyMessage: (event: Message) => boolean = (event: Message) =>
   (event.message !== undefined && event.message.trim() !== '')
 
-const emptyRoll: (roll: Roll) => boolean = (roll: Roll) =>
-  (roll.actor !== undefined && roll.check !== undefined && roll.actor.trim() !== '' && roll.check.trim() !== '')
+const emptyRoll: (roll: Message) => boolean = (roll: Message) =>
+  (roll.actor !== undefined && roll.message !== undefined && roll.actor.trim() !== '' && roll.message.trim() !== '')
 
-export const empty: (messages: Message[]) => Message[] = (messages: Message[]) => {
-  const filtered = messages.map(message => {
-    switch (message.kind) {
-      case 'player': return new PlayerMessage(message.actor, message.events.filter(emptyMessage))
-      case 'gm': return new GameMasterMessage(message.events.filter(emptyMessage))
-      case 'rolls': return new Rolls(message.rolls.filter(emptyRoll))
-      default: return message
-    }
-  })
-
-  return filtered.filter(message => {
-    switch (message.kind) {
-      case 'player':
-      case 'gm': return message.events.length !== 0
-      case 'rolls': return message.rolls.length !== 0
-      default: return true
-    }
-  })
-}
+export const empty: MessageFilter = (messages: Message[]) =>
+  messages
+    .filter((message) => {
+      switch (message.type) {
+        case 'rolls': return emptyRoll(message)
+        default: return emptyMessage(message)
+      }
+    })
