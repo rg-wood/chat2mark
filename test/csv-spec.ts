@@ -7,12 +7,14 @@ const expect = chai.expect
 
 describe('toCsv()', () => {
 
+  const timestamp = new Date(Date.now())
+
   it('should add CSV column header', () => {
     expect(toCsv([])).to.include(`actor,type,message`)
   })
 
   it('should include simple speech message', () => {
-    expect(toCsv([new Message('Orin', 'says', 'You do have an awful lot of stories.')])).to.include(
+    expect(toCsv([new Message('Orin', 'says', 'You do have an awful lot of stories.', timestamp)])).to.include(
       stripIndent`
         "Orin",says,"You do have an awful lot of stories."
       `
@@ -20,7 +22,7 @@ describe('toCsv()', () => {
   })
 
   it('should include simple action message', () => {
-    expect(toCsv([new Message('Orin', 'does', 'raises an eyebrow at Quinn.')])).to.include(
+    expect(toCsv([new Message('Orin', 'does', 'raises an eyebrow at Quinn.', timestamp)])).to.include(
       stripIndent`
         "Orin",does,"raises an eyebrow at Quinn."
       `
@@ -28,7 +30,7 @@ describe('toCsv()', () => {
   })
 
   it('should include simple roll message', () => {
-    expect(toCsv([new Message('Orin', 'rolls', 'Stealth (9)')])).to.include(
+    expect(toCsv([new Message('Orin', 'rolls', 'Stealth (9)', timestamp)])).to.include(
       stripIndent`
         "Orin",rolls,"Stealth (9)"
       `

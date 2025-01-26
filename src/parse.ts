@@ -1,5 +1,14 @@
 import { Message } from './messages'
 import * as cheerio from 'cheerio'
+import * as moment from 'moment'
+
+function readTimestamp (message: cheerio.Selector): Date | undefined {
+  const text = message('.tstamp').text().trim()
+  if (text !== '') {
+    const timestamp = moment(text, 'MMMM DD, YYYY hh:mmaa')
+    return timestamp.toDate()
+  }
+}
 
 const capitalize: (s: string) => string = (s: string) =>
   s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase())
@@ -19,13 +28,15 @@ const parseRoll: (message: cheerio.Selector) => Message = (message: cheerio.Sele
     return new Message(
       message('.by').text().replace(/:$/, ''),
       'rolls',
-      parseRollResult(message)
+      parseRollResult(message),
+      readTimestamp(message)
     )
   } else {
     return new Message(
       message('.by').text().replace(/:$/, ''),
       'rolls',
-      `${capitalize(check)}: ${parseRollResult(message)}`
+      `${capitalize(check)}: ${parseRollResult(message)}`,
+      readTimestamp(message)
     )
   }
 }
@@ -42,9 +53,9 @@ const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => Mess
       .trim()
 
   /* eslint-disable */
-  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new Message(actor, 'says', speech)
+  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new Message(actor, 'says', speech, readTimestamp(message))
   /* eslint-enable */
-  else return new Message('GM', 'says', speech)
+  else return new Message('GM', 'says', speech, readTimestamp(message))
 }
 
 const nonCapitalisedWord = /^[a-z]/
@@ -76,7 +87,8 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
   return new Message(
     name.join(' '),
     'does',
-    action.join(' ')
+    action.join(' '),
+    readTimestamp(message)
   )
 }
 
@@ -84,7 +96,7 @@ const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.El
   const message = cheerio.load(element)
 
   if (element.attribs.class.includes('private')) {
-    return new Message('GM', 'says', '')
+    return new Message('GM', 'says', '', new Date(0))
   } else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
     return parseRoll(message)
   } else if (element.attribs.class.includes('rollresult')) {

@@ -10,8 +10,6 @@ const splitQuotesForAction = (action) => {
     if (match != null) {
         const partialAction = Object.assign(Object.assign({}, action), { message: match[1].trim() });
         const speech = Object.assign(Object.assign({}, action), { type: 'says', message: match[3].trim() });
-        console.log(partialAction);
-        console.log(speech);
         return [partialAction, speech];
     }
     else

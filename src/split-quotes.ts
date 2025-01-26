@@ -11,8 +11,6 @@ const splitQuotesForAction: (action: Message) => Message[] = (action: Message) =
   if (match != null) {
     const partialAction: Message = { ...action, message: match[1].trim() }
     const speech: Message = { ...action, type: 'says', message: match[3].trim() }
-    console.log(partialAction)
-    console.log(speech)
 
     return [partialAction, speech]
   } else return [action]
