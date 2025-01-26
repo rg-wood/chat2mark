@@ -1,4 +1,4 @@
-import { Message, PlayerMessage, Action, Speech, PartialAction, Rolls, Roll, Private, GameMasterMessage } from './messages'
+import { Message } from './messages'
 import * as cheerio from 'cheerio'
 
 const capitalize: (s: string) => string = (s: string) =>
@@ -71,7 +71,7 @@ const parseAction: (action: string) => Action | PartialAction = (action: string)
   }
 }
 
-const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) => PlayerMessage = (message: cheerio.Selector, element: cheerio.Element) => {
+const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) => Message = (message: cheerio.Selector, element: cheerio.Element) => {
   const words = element
     .children
     .filter((c) => c.type === 'text')
@@ -85,8 +85,9 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
   const name = words.slice(0, i)
   const action = words.slice(i, words.length)
 
-  return new PlayerMessage(
+  return new Message(
     name.join(' '),
+    'does',
     [parseAction(action.join(' '))]
   )
 }
@@ -95,7 +96,7 @@ const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.El
   const message = cheerio.load(element)
 
   if (element.attribs.class.includes('private')) {
-    return new Private()
+    return new Message('GM', 'says', '')
   } else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
     return parseRoll(message)
   } else if (element.attribs.class.includes('rollresult')) {

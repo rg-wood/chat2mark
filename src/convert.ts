@@ -7,13 +7,13 @@ import { punctuation } from './punctuation'
 import { empty } from './empty'
 import { orphan } from './orphan'
 import { toMarkdown } from './markdown'
-import { toCsv, parseCsv } from './csv'
+import { toCsv/*, parseCsv*/ } from './csv'
 import { flow } from 'fp-ts/lib/function'
 
 export const convert: (html: string) => string = flow(
   parseChat,
   shorten,
-  collect,
+  // collect,
   splitQuotes,
   capitaliseMessages,
   punctuation,
@@ -25,7 +25,7 @@ export const convert: (html: string) => string = flow(
 export const preprocess: (html: string) => string = flow(
   parseChat,
   shorten,
-  collect,
+  // collect,
   splitQuotes,
   capitaliseMessages,
   punctuation,
@@ -34,7 +34,7 @@ export const preprocess: (html: string) => string = flow(
   toCsv
 )
 
-export const postprocess: (csv: string) => string = flow(
-  parseCsv,
-  toMarkdown
-)
+// export const postprocess: (csv: string) => string = flow(
+//   parseCsv,
+//   toMarkdown
+// )
