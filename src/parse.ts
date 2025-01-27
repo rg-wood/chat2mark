@@ -1,12 +1,19 @@
-import { Message } from './messages'
+import { Message, MessageFilter } from './messages'
 import * as cheerio from 'cheerio'
 import * as moment from 'moment'
+import { fromOocCsv } from './csv'
+import * as fs from 'fs'
+
+let lastTimeStamp: Date | undefined
 
 function readTimestamp (message: cheerio.Selector): Date | undefined {
   const text = message('.tstamp').text().trim()
   if (text !== '') {
     const timestamp = moment(text, 'MMMM DD, YYYY hh:mmaa')
-    return timestamp.toDate()
+    lastTimeStamp = timestamp.toDate()
+    return lastTimeStamp
+  } else {
+    return lastTimeStamp
   }
 }
 
@@ -28,6 +35,7 @@ const parseRoll: (message: cheerio.Selector) => Message = (message: cheerio.Sele
     return new Message(
       message('.by').text().replace(/:$/, ''),
       'rolls',
+      'ooc',
       parseRollResult(message),
       readTimestamp(message)
     )
@@ -35,6 +43,7 @@ const parseRoll: (message: cheerio.Selector) => Message = (message: cheerio.Sele
     return new Message(
       message('.by').text().replace(/:$/, ''),
       'rolls',
+      'ooc',
       `${capitalize(check)}: ${parseRollResult(message)}`,
       readTimestamp(message)
     )
@@ -53,9 +62,9 @@ const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => Mess
       .trim()
 
   /* eslint-disable */
-  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new Message(actor, 'says', speech, readTimestamp(message))
+  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new Message(actor, 'says', 'ic', speech, readTimestamp(message))
   /* eslint-enable */
-  else return new Message('GM', 'says', speech, readTimestamp(message))
+  else return new Message('GM', 'says', 'ic', speech, readTimestamp(message))
 }
 
 const nonCapitalisedWord = /^[a-z]/
@@ -87,6 +96,7 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
   return new Message(
     name.join(' '),
     'does',
+    'ic',
     action.join(' '),
     readTimestamp(message)
   )
@@ -96,7 +106,7 @@ const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.El
   const message = cheerio.load(element)
 
   if (element.attribs.class.includes('private')) {
-    return new Message('GM', 'says', '', new Date(0))
+    return new Message('GM', 'says', 'ic', '', new Date(0))
   } else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
     return parseRoll(message)
   } else if (element.attribs.class.includes('rollresult')) {
@@ -114,4 +124,12 @@ const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.El
 export const parseChat: (html: string) => Message[] = (html: string) => {
   const $ = cheerio.load(html)
   return $('div.message').toArray().map(parseMessage)
+}
+
+export const parseOcc: (file: string) => MessageFilter = (file: string) => {
+  const csv = fs.readFileSync(file, { encoding: 'utf8' })
+  const chat = fromOocCsv(csv)
+  return (messages: Message[]) => {
+    return messages.concat(chat)
+  }
 }

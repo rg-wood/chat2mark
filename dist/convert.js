@@ -8,5 +8,6 @@ const capitalise_1 = require("./capitalise");
 const punctuation_1 = require("./punctuation");
 const empty_1 = require("./empty");
 const csv_1 = require("./csv");
+const sort_1 = require("./sort");
 const function_1 = require("fp-ts/lib/function");
-exports.preprocess = function_1.flow(parse_1.parseChat, shorten_1.shorten, split_quotes_1.splitQuotes, capitalise_1.capitaliseMessages, punctuation_1.punctuation, empty_1.empty, csv_1.toCsv);
+exports.preprocess = function_1.flow(parse_1.parseChat, parse_1.parseOcc('test/fixtures/discord.chat.csv'), sort_1.sort, shorten_1.shorten, split_quotes_1.splitQuotes, capitalise_1.capitaliseMessages, punctuation_1.punctuation, empty_1.empty, csv_1.toCsv);
