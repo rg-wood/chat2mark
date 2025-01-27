@@ -3,7 +3,7 @@ import { Message } from './messages'
 // import { groupAdjacent } from './group-adjacent'
 
 export const toCsv: (messages: Message[]) => string = (messages: Message[]) => {
-  const header = 'actor,type,message,timestamp\n'
+  const header = 'timestamp,actor,type,message\n'
 
   return header +
     messages
@@ -12,7 +12,7 @@ export const toCsv: (messages: Message[]) => string = (messages: Message[]) => {
 }
 
 const renderMessage: (message: Message) => string = (message: Message) => {
-  return `"${message.actor}",${message.type},"${message.message}",${message.timestamp !== undefined ? message.timestamp.toISOString() : ''}`
+  return `"${message.timestamp !== undefined ? message.timestamp.toUTCString() : ''}","${message.actor}",${message.type},"${message.message}"`
 }
 
 // interface Record {
