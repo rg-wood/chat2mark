@@ -13,6 +13,7 @@ module.exports =  {
     "padded-blocks": ["error", { "classes": "always" }],
     "space-before-function-paren": ["error", "never"],
     "@typescript-eslint/no-parameter-properties": 0,
-    "space-before-function-paren": ["error", "always"]
+    "space-before-function-paren": ["error", "always"],
+    "@typescript-eslint/restrict-template-expressions": 0
   },
 };

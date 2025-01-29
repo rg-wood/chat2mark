@@ -1,24 +1,39 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseChat = void 0;
+exports.parseOcc = exports.parseChat = void 0;
 const messages_1 = require("./messages");
 const cheerio = require("cheerio");
+const moment = require("moment");
+const csv_1 = require("./csv");
+const fs = require("fs");
+let lastTimeStamp;
+function readTimestamp(message) {
+    const text = message('.tstamp').text().trim();
+    if (text !== '') {
+        const timestamp = moment(text, 'MMMM DD, YYYY hh:mmaa');
+        lastTimeStamp = timestamp.toDate();
+        return lastTimeStamp;
+    }
+    else {
+        return lastTimeStamp;
+    }
+}
 const capitalize = (s) => s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase());
 const parseRollResult = (message) => {
     if (message('.inlinerollresult').length > 0) {
-        return parseInt(message('.inlinerollresult').slice(0, 1).text());
+        return message('.inlinerollresult').slice(0, 1).text();
     }
     else {
-        return parseInt(message('.rolled').slice(0, 1).text());
+        return message('.rolled').slice(0, 1).text();
     }
 };
 const parseRoll = (message) => {
     const check = message('.sheet-label').text().trim().split(' ')[0];
     if (check === '') {
-        return new messages_1.Rolls([new messages_1.Roll(message('.by').text().replace(/:$/, ''), parseRollResult(message))]);
+        return new messages_1.Message(message('.by').text().replace(/:$/, ''), 'rolls', 'ooc', parseRollResult(message), readTimestamp(message));
     }
     else {
-        return new messages_1.Rolls([new messages_1.Roll(message('.by').text().replace(/:$/, ''), parseRollResult(message), capitalize(check))]);
+        return new messages_1.Message(message('.by').text().replace(/:$/, ''), 'rolls', 'ooc', `${capitalize(check)}: ${parseRollResult(message)}`, readTimestamp(message));
     }
 };
 const parseSpeech = (message, element) => {
@@ -30,9 +45,9 @@ const parseSpeech = (message, element) => {
         .join(' ')
         .trim();
     if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you')))
-        return new messages_1.PlayerMessage(actor, [new messages_1.Speech(speech)]);
+        return new messages_1.Message(actor, 'says', 'ic', speech, readTimestamp(message));
     else
-        return new messages_1.GameMasterMessage([new messages_1.Speech(speech)]);
+        return new messages_1.Message('GM', 'says', 'ic', speech, readTimestamp(message));
 };
 const nonCapitalisedWord = /^[a-z]/;
 const firstNonCapitalisedWord = (word) => word.match(nonCapitalisedWord) !== null;
@@ -42,16 +57,6 @@ const indexOfName = (words) => {
     }
     else {
         return words.findIndex(firstNonCapitalisedWord);
-    }
-};
-const partialAction = /^([^,]*),? ("|')(.*)\2$/;
-const parseAction = (action) => {
-    const match = action.replace(/''/g, `"`).match(partialAction);
-    if (match != null) {
-        return new messages_1.PartialAction(match[1], match[3]);
-    }
-    else {
-        return new messages_1.Action(action);
     }
 };
 const parsePlayerAction = (message, element) => {
@@ -65,12 +70,12 @@ const parsePlayerAction = (message, element) => {
     const i = indexOfName(words);
     const name = words.slice(0, i);
     const action = words.slice(i, words.length);
-    return new messages_1.PlayerMessage(name.join(' '), [parseAction(action.join(' '))]);
+    return new messages_1.Message(name.join(' '), 'does', 'ic', action.join(' '), readTimestamp(message));
 };
 const parseMessage = (element) => {
     const message = cheerio.load(element);
     if (element.attribs.class.includes('private')) {
-        return new messages_1.Private();
+        return new messages_1.Message('GM', 'says', 'ic', '', new Date(0));
     }
     else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
         return parseRoll(message);
@@ -91,4 +96,11 @@ const parseMessage = (element) => {
 exports.parseChat = (html) => {
     const $ = cheerio.load(html);
     return $('div.message').toArray().map(parseMessage);
+};
+exports.parseOcc = (file) => {
+    const csv = fs.readFileSync(file, { encoding: 'utf8' });
+    const chat = csv_1.fromOocCsv(csv);
+    return (messages) => {
+        return messages.concat(chat);
+    };
 };

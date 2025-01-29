@@ -1,4 +1,4 @@
-export declare class App {
+export declare class Convert {
     private readonly program;
     private readonly package;
     constructor();

@@ -1,35 +1,56 @@
-import { Message, PlayerMessage, Action, Speech, PartialAction, Rolls, Roll, Private, GameMasterMessage } from './messages'
+import { Message, MessageFilter } from './messages'
 import * as cheerio from 'cheerio'
+import * as moment from 'moment'
+import { fromOocCsv } from './csv'
+import * as fs from 'fs'
+
+let lastTimeStamp: Date | undefined
+
+function readTimestamp (message: cheerio.Selector): Date | undefined {
+  const text = message('.tstamp').text().trim()
+  if (text !== '') {
+    const timestamp = moment(text, 'MMMM DD, YYYY hh:mmaa')
+    lastTimeStamp = timestamp.toDate()
+    return lastTimeStamp
+  } else {
+    return lastTimeStamp
+  }
+}
 
 const capitalize: (s: string) => string = (s: string) =>
   s.charAt(0).toUpperCase().concat(s.slice(1).toLowerCase())
 
-const parseRollResult: (message: cheerio.Selector) => number = (message: cheerio.Selector) => {
+const parseRollResult: (message: cheerio.Selector) => string = (message: cheerio.Selector) => {
   if (message('.inlinerollresult').length > 0) {
-    return parseInt(message('.inlinerollresult').slice(0, 1).text())
+    return message('.inlinerollresult').slice(0, 1).text()
   } else {
-    return parseInt(message('.rolled').slice(0, 1).text())
+    return message('.rolled').slice(0, 1).text()
   }
 }
 
-const parseRoll: (message: cheerio.Selector) => Rolls = (message: cheerio.Selector) => {
+const parseRoll: (message: cheerio.Selector) => Message = (message: cheerio.Selector) => {
   const check = message('.sheet-label').text().trim().split(' ')[0]
 
   if (check === '') {
-    return new Rolls([new Roll(
+    return new Message(
       message('.by').text().replace(/:$/, ''),
-      parseRollResult(message)
-    )])
-  } else {
-    return new Rolls([new Roll(
-      message('.by').text().replace(/:$/, ''),
+      'rolls',
+      'ooc',
       parseRollResult(message),
-      capitalize(check)
-    )])
+      readTimestamp(message)
+    )
+  } else {
+    return new Message(
+      message('.by').text().replace(/:$/, ''),
+      'rolls',
+      'ooc',
+      `${capitalize(check)}: ${parseRollResult(message)}`,
+      readTimestamp(message)
+    )
   }
 }
 
-const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => PlayerMessage | GameMasterMessage = (message: cheerio.Selector, element: cheerio.Element) => {
+const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => Message = (message: cheerio.Selector, element: cheerio.Element) => {
   const actor = message('.by').text().replace(/:$/, '')
 
   const speech =
@@ -41,9 +62,9 @@ const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => Play
       .trim()
 
   /* eslint-disable */
-  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new PlayerMessage(actor, [new Speech(speech)])
+  if ((actor && !actor.includes('GM')) || (!element.attribs.class.includes('you'))) return new Message(actor, 'says', 'ic', speech, readTimestamp(message))
   /* eslint-enable */
-  else return new GameMasterMessage([new Speech(speech)])
+  else return new Message('GM', 'says', 'ic', speech, readTimestamp(message))
 }
 
 const nonCapitalisedWord = /^[a-z]/
@@ -58,20 +79,7 @@ const indexOfName: (words: string[]) => number = (words: string[]) => {
   }
 }
 
-const partialAction = /^([^,]*),? ("|')(.*)\2$/
-
-const parseAction: (action: string) => Action | PartialAction = (action: string) => {
-  /* eslint-disable */
-  const match = action.replace(/''/g, `"`).match(partialAction)
-  /* eslint-enable */
-  if (match != null) {
-    return new PartialAction(match[1], match[3])
-  } else {
-    return new Action(action)
-  }
-}
-
-const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) => PlayerMessage = (message: cheerio.Selector, element: cheerio.Element) => {
+const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) => Message = (message: cheerio.Selector, element: cheerio.Element) => {
   const words = element
     .children
     .filter((c) => c.type === 'text')
@@ -85,9 +93,12 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
   const name = words.slice(0, i)
   const action = words.slice(i, words.length)
 
-  return new PlayerMessage(
+  return new Message(
     name.join(' '),
-    [parseAction(action.join(' '))]
+    'does',
+    'ic',
+    action.join(' '),
+    readTimestamp(message)
   )
 }
 
@@ -95,7 +106,7 @@ const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.El
   const message = cheerio.load(element)
 
   if (element.attribs.class.includes('private')) {
-    return new Private()
+    return new Message('GM', 'says', 'ic', '', new Date(0))
   } else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
     return parseRoll(message)
   } else if (element.attribs.class.includes('rollresult')) {
@@ -113,4 +124,12 @@ const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.El
 export const parseChat: (html: string) => Message[] = (html: string) => {
   const $ = cheerio.load(html)
   return $('div.message').toArray().map(parseMessage)
+}
+
+export const parseOcc: (file: string) => MessageFilter = (file: string) => {
+  const csv = fs.readFileSync(file, { encoding: 'utf8' })
+  const chat = fromOocCsv(csv)
+  return (messages: Message[]) => {
+    return messages.concat(chat)
+  }
 }
