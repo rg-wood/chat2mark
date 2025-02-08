@@ -18,10 +18,6 @@ interface OocMessage {
   Author?: string
   Date?: string
   Content?: string
-  message?: string
-  action?: string
-  result?: string
-  check?: string
 }
 
 export function fromOocCsv (csv: string): Message[] {
