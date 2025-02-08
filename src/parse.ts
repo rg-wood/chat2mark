@@ -67,7 +67,7 @@ const parseSpeech: (message: cheerio.Selector, element: cheerio.Element) => Mess
   else return new Message('GM', 'says', 'ic', speech, readTimestamp(message))
 }
 
-const nonCapitalisedWord = /^[a-z]/
+const nonCapitalisedWord = /^[a-z0-9]/
 
 const firstNonCapitalisedWord: (word: string) => boolean = (word: string) => word.match(nonCapitalisedWord) !== null
 

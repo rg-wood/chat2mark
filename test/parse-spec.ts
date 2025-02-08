@@ -131,4 +131,15 @@ describe('parseChat()', () => {
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
+
+  it('should not include numbers in character names', () => {
+    const html = `
+    <div class="message emote" data-messageid="-L90oOLL9svOKg_4w7Yi">
+      Élise Valmont 5'10" and moving with the grace of a ballet dancer, Elise Valmont is hard to miss. She looks unhappy to be here, white-blonde hair framing her tanned face, a dagger hilt poking out of the sleeve of her leather armor before she adjusts it back into hiding and pulls her dark grey hooded cloak closed. Icy blue eyes scan the others present, observing silently.
+    </div>  `
+
+    const expected = new Message(`Élise Valmont`, 'does', 'ic', `5'10\" and moving with the grace of a ballet dancer, Elise Valmont is hard to miss. She looks unhappy to be here, white-blonde hair framing her tanned face, a dagger hilt poking out of the sleeve of her leather armor before she adjusts it back into hiding and pulls her dark grey hooded cloak closed. Icy blue eyes scan the others present, observing silently.`, timestamp)
+    expect(parseChat(html)).to.deep.include.members([expected])
+  })
+
 })

@@ -49,7 +49,7 @@ const parseSpeech = (message, element) => {
     else
         return new messages_1.Message('GM', 'says', 'ic', speech, readTimestamp(message));
 };
-const nonCapitalisedWord = /^[a-z]/;
+const nonCapitalisedWord = /^[a-z0-9]/;
 const firstNonCapitalisedWord = (word) => word.match(nonCapitalisedWord) !== null;
 const indexOfName = (words) => {
     if (words[0] === 'The') {
