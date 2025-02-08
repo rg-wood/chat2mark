@@ -1,4 +1,4 @@
-import { toCsv/*, parseCsv*/ } from '../src/csv'
+import { toCsv, fromOocCsv } from '../src/csv'
 import { Message } from '../src/messages'
 import * as chai from 'chai'
 import { stripIndent } from 'common-tags'
@@ -36,5 +36,45 @@ describe('toCsv()', () => {
       `
     )
   })
+
+})
+
+describe('fromOocCsv', () => {
+
+  const timestamp = new Date(2021, 2, 25, 19, 29)
+
+  it('should parse a simple OOC message', () => {
+    const csv = `AuthorID,Author,Date,Content,Attachments,Reactions
+"281029674837082113","Ric#0018","25-Mar-21 07:29 PM","Ha ha ha ha","",""`
+
+    const expected = new Message('Ric#0018', 'says', 'ooc', 'Ha ha ha ha', timestamp)
+    expect(fromOocCsv(csv)).to.deep.include.members([expected])
+  })
+
+//   it('should collect messages with new lines', () => {
+//     const csv = `AuthorID,Author,Date,Content,Attachments,Reactions
+// "281029674837082113","Ric#0018","25-Mar-21 07:29 PM","Ha ha ha ha","",""
+// Rule #4: More than one species of baby flopping around is cute.
+// Rule #5: Fisheye lens + baby animal is always cute.[9][10]`
+
+//     const expected = 
+//     expect(fromOocCsv(csv)).to.deep.include.members([
+//       new Message('Ric#0018', 'says', 'ooc', 'Ha ha ha ha', timestamp),
+//       new Message('', 'says', 'ooc', 'Rule #4: More than one species of baby flopping around is cute.', timestamp),
+//       new Message('', 'says', 'ooc', 'Rule #5: Fisheye lens + baby animal is always cute.[9][10]', timestamp)
+//     ])
+//   })
+
+//   it('should collect messages with new Windows lines', () => {
+//     const csv = `AuthorID,Author,Date,Content,Attachments,Reactions
+// "281029674837082113","Ric#0018","25-Mar-21 07:29 PM","Ha ha ha ha\nRule #4: More than one species of baby flopping around is cute.\r\nRule #5: Fisheye lens + baby animal is always cute.[9][10]","",""`
+
+//     console.log(csv)
+//     expect(fromOocCsv(csv)).to.deep.include.members([
+//       new Message('Ric#0018', 'says', 'ooc', 'Ha ha ha ha', timestamp),
+//       new Message('', 'says', 'ooc', 'Rule #4: More than one species of baby flopping around is cute.', timestamp),
+//       new Message('', 'says', 'ooc', 'Rule #5: Fisheye lens + baby animal is always cute.[9][10]', timestamp)
+//     ])
+//   })
 
 })
