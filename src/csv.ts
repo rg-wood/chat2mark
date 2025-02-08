@@ -1,6 +1,5 @@
 import { Message } from './messages'
 import * as parse from 'csv-parse/lib/es5/sync'
-// import { groupAdjacent } from './group-adjacent'
 
 export const toCsv: (messages: Message[]) => string = (messages: Message[]) => {
   const header = 'timestamp,actor,type,chat,message\n'
