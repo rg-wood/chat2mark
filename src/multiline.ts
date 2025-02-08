@@ -1,8 +1,5 @@
 import { Message, MessageFilter } from './messages'
-
-function flatten<T> (arrays: T[][]): T[] {
-  return ([] as T[]).concat(...arrays)
-}
+import { flatten } from './flatten'
 
 function splitLine (message: Message): Message[] {
   return message

@@ -2,9 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.multiline = void 0;
 const messages_1 = require("./messages");
-function flatten(arrays) {
-    return [].concat(...arrays);
-}
+const flatten_1 = require("./flatten");
 function splitLine(message) {
     return message
         .message
@@ -12,4 +10,4 @@ function splitLine(message) {
         .filter(line => line !== '')
         .map(line => new messages_1.Message(message.actor, message.type, message.chat, line, message.timestamp));
 }
-exports.multiline = (messages) => flatten(messages.map(splitLine));
+exports.multiline = (messages) => flatten_1.flatten(messages.map(splitLine));

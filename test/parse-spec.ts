@@ -142,4 +142,53 @@ describe('parseChat()', () => {
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
+  it('should parse a partial action message', () => {
+    const html = `
+    <div class='message emote' data-messageid='-LiygrJkaQTP_Cmoi02m'>
+        Biron grunts, 'nothin we need worry about'
+    </div>`
+
+    expect(parseChat(html)).to.deep.include.members([
+      new Message('Biron', 'does', 'ic', 'grunts', timestamp),
+      new Message('Biron', 'says', 'ic', 'nothin we need worry about', timestamp)
+    ])
+  })
+
+  it('should parse a partial action message with odd quotes', () => {
+    const html = `
+    <div class='message emote' data-messageid='-LiyoLUXGCdZQktKVOyL'>
+        <div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div>
+        <div class='spacer'></div>Quinn looks to Biron ''anything of import?''
+    </div>`
+
+    expect(parseChat(html)).to.deep.include.members([
+      new Message('Quinn', 'does', 'ic', 'looks to Biron', timestamp),
+      new Message('Quinn', 'says', 'ic', 'anything of import?', timestamp)
+    ])
+  })
+
+  it('should parse a partial action message with single quotes', () => {
+    const html = `
+    <div class='message emote' data-messageid='-Lf12oo2GiovZrIWyKUN'>
+    <div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div>
+    <div class='spacer'></div>Quinn Wheatsteal mutters 'ye ain't coming closer guv'nor'</div>`
+
+    expect(parseChat(html)).to.deep.include.members([
+      new Message('Quinn Wheatsteal', 'does', 'ic', 'mutters', timestamp),
+      new Message('Quinn Wheatsteal', 'says', 'ic', `ye ain't coming closer guv'nor`, timestamp)
+    ])
+  })
+
+  it('should parse a partial action message with nested quotes', () => {
+    const html = `
+    <div class='message emote' data-messageid='-LiykmSm7MV55nWmHnVF'>
+    <div class='avatar' aria-hidden='true'><img src='/users/avatar/1427024/30'></div>
+    <div class='spacer'></div>Quinn Wheatsteal scratches his head ''sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...''</div>`
+
+    expect(parseChat(html)).to.deep.include.members([
+      new Message('Quinn Wheatsteal', 'does', 'ic', 'scratches his head', timestamp),
+      new Message('Quinn Wheatsteal', 'says', 'ic', `sounds a bit like 'the fisherman's daughter'. You know it? It's a bit of a bawdy song, and no mistake. You'd know the chorus - makes it clear that shes the easiest catch some...`, timestamp)
+    ])
+  })
+
 })

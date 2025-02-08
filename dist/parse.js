@@ -6,6 +6,7 @@ const cheerio = require("cheerio");
 const moment = require("moment");
 const csv_1 = require("./csv");
 const fs = require("fs");
+const flatten_1 = require("./flatten");
 let lastTimeStamp;
 function readTimestamp(message) {
     const text = message('.tstamp').text().trim();
@@ -59,6 +60,12 @@ const indexOfName = (words) => {
         return words.findIndex(firstNonCapitalisedWord);
     }
 };
+function getName(words) {
+    return words.slice(0, indexOfName(words));
+}
+function getAction(words) {
+    return words.slice(indexOfName(words), words.length);
+}
 const parsePlayerAction = (message, element) => {
     const words = element
         .children
@@ -67,27 +74,48 @@ const parsePlayerAction = (message, element) => {
         .join(' ')
         .trim()
         .split(' ');
-    const i = indexOfName(words);
-    const name = words.slice(0, i);
-    const action = words.slice(i, words.length);
+    const name = getName(words);
+    const action = getAction(words);
     return new messages_1.Message(name.join(' '), 'does', 'ic', action.join(' '), readTimestamp(message));
+};
+const partialAction = /^([^,]*),? ("|')(.*)\2$/;
+const parseAction = (message, element) => {
+    const action = element
+        .children
+        .filter((c) => c.type === 'text')
+        .map((c) => c.data)
+        .join(' ')
+        .trim();
+    const match = action.replace(/''/g, '"').match(partialAction);
+    if (match != null) {
+        const words = match[1].split(' ');
+        const name = getName(words).join(' ');
+        const actionMessage = new messages_1.Message(name, 'does', 'ic', getAction(words).join(' '), readTimestamp(message));
+        return [
+            actionMessage,
+            new messages_1.Message(name, 'says', 'ic', match[3], readTimestamp(message))
+        ];
+    }
+    else {
+        return [parsePlayerAction(message, element)];
+    }
 };
 const parseMessage = (element) => {
     const message = cheerio.load(element);
     if (element.attribs.class.includes('private')) {
-        return new messages_1.Message('GM', 'says', 'ic', '', new Date(0));
+        return [new messages_1.Message('GM', 'says', 'ic', '', new Date(0))];
     }
     else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
-        return parseRoll(message);
+        return [parseRoll(message)];
     }
     else if (element.attribs.class.includes('rollresult')) {
-        return parseRoll(message);
+        return [parseRoll(message)];
     }
     else if (element.attribs.class.includes('general')) {
-        return parseSpeech(message, element);
+        return [parseSpeech(message, element)];
     }
     else if (element.attribs.class.includes('emote')) {
-        return parsePlayerAction(message, element);
+        return parseAction(message, element);
     }
     else {
         throw new Error(`Unrecognised message for classes=[${element.attribs.class}]: ${message.html()}`);
@@ -95,7 +123,7 @@ const parseMessage = (element) => {
 };
 exports.parseChat = (html) => {
     const $ = cheerio.load(html);
-    return $('div.message').toArray().map(parseMessage);
+    return flatten_1.flatten($('div.message').toArray().map(parseMessage));
 };
 exports.parseOcc = (file) => {
     const csv = fs.readFileSync(file, { encoding: 'utf8' });

@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio'
 import * as moment from 'moment'
 import { fromOocCsv } from './csv'
 import * as fs from 'fs'
+import { flatten } from './flatten'
 
 let lastTimeStamp: Date | undefined
 
@@ -79,6 +80,14 @@ const indexOfName: (words: string[]) => number = (words: string[]) => {
   }
 }
 
+function getName (words: string[]): string[] {
+  return words.slice(0, indexOfName(words))
+}
+
+function getAction (words: string[]): string[] {
+  return words.slice(indexOfName(words), words.length)
+}
+
 const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) => Message = (message: cheerio.Selector, element: cheerio.Element) => {
   const words = element
     .children
@@ -88,10 +97,8 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
     .trim()
     .split(' ')
 
-  const i = indexOfName(words)
-
-  const name = words.slice(0, i)
-  const action = words.slice(i, words.length)
+  const name = getName(words)
+  const action = getAction(words)
 
   return new Message(
     name.join(' '),
@@ -102,19 +109,52 @@ const parsePlayerAction: (message: cheerio.Selector, element: cheerio.Element) =
   )
 }
 
-const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.Element) => {
+const partialAction = /^([^,]*),? ("|')(.*)\2$/
+
+const parseAction: (message: cheerio.Selector, element: cheerio.Element) => Message[] = (message: cheerio.Selector, element: cheerio.Element) => {
+  const action = element
+    .children
+    .filter((c) => c.type === 'text')
+    .map((c) => c.data)
+    .join(' ')
+    .trim()
+
+  const match = action.replace(/''/g, '"').match(partialAction)
+
+  if (match != null) {
+    const words = match[1].split(' ')
+    const name = getName(words).join(' ')
+
+    const actionMessage =
+      new Message(
+        name,
+        'does',
+        'ic',
+        getAction(words).join(' '),
+        readTimestamp(message)
+      )
+    return [
+      actionMessage,
+      new Message(name, 'says', 'ic', match[3], readTimestamp(message))
+    ]
+  } else {
+    return [parsePlayerAction(message, element)]
+  }
+}
+
+const parseMessage: (element: cheerio.Element) => Message[] = (element: cheerio.Element) => {
   const message = cheerio.load(element)
 
   if (element.attribs.class.includes('private')) {
-    return new Message('GM', 'says', 'ic', '', new Date(0))
+    return [new Message('GM', 'says', 'ic', '', new Date(0))]
   } else if (element.attribs.class.includes('general') && message('.inlinerollresult').length > 0) {
-    return parseRoll(message)
+    return [parseRoll(message)]
   } else if (element.attribs.class.includes('rollresult')) {
-    return parseRoll(message)
+    return [parseRoll(message)]
   } else if (element.attribs.class.includes('general')) {
-    return parseSpeech(message, element)
+    return [parseSpeech(message, element)]
   } else if (element.attribs.class.includes('emote')) {
-    return parsePlayerAction(message, element)
+    return parseAction(message, element)
   } else {
     throw new Error(`Unrecognised message for classes=[${element.attribs.class}]: ${message.html()}`)
   }
@@ -123,7 +163,7 @@ const parseMessage: (element: cheerio.Element) => Message = (element: cheerio.El
 
 export const parseChat: (html: string) => Message[] = (html: string) => {
   const $ = cheerio.load(html)
-  return $('div.message').toArray().map(parseMessage)
+  return flatten($('div.message').toArray().map(parseMessage))
 }
 
 export const parseOcc: (file: string) => MessageFilter = (file: string) => {
