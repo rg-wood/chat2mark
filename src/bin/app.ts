@@ -1,5 +1,5 @@
 import * as commander from 'commander'
-import { preprocess } from '../convert'
+import { convert } from '../convert'
 import * as fs from 'fs-extra'
 
 export class Convert {
@@ -16,25 +16,17 @@ export class Convert {
   public initialize (): void {
     this.program
       .version(this.package.version)
-      .arguments('<input> <output>')
-      .option('-p, --preprocess', 'output pre-processed CSV data only')
-      .option('-r, --postprocess', 'post-process CSV data')
-      .action((input, output, options) => {
-        const doPreprocess = options.preprocess !== undefined && options.preprocess
-        const doPostprocess = options.postprocess !== undefined && options.postprocess
+      .arguments('<roll20.html> <discord.csv <output>')
+      .action((ic, ooc, output, options) => {
 
         if (
-          typeof input === 'string' &&
-          typeof output === 'string' &&
-          typeof doPreprocess === 'boolean' &&
-          typeof doPostprocess === 'boolean'
+          typeof ic === 'string' &&
+          typeof ooc === 'string' &&
+          typeof output === 'string'
         ) {
-          const body = fs.readFileSync(input, 'utf8')
+          const body = fs.readFileSync(ic, 'utf8')
 
-          fs.writeFileSync(output, preprocess(body))
-          // if (doPreprocess) fs.writeFileSync(output, preprocess(body))
-          // else if (doPostprocess) fs.writeFileSync(output, postprocess(body))
-          // else fs.writeFileSync(output, convert(body))
+          fs.writeFileSync(output, convert(ooc)(body))
         }
       })
       .parse(process.argv)

@@ -9,12 +9,12 @@ describe('shorten()', () => {
   const timestamp = new Date(Date.now())
 
   it('should shorten characters names', () => {
-    const message = new Message('Quinn Wheatsteal', 'says', 'You do have an awful lot of stories.', timestamp)
-    expect(shorten([message])).to.deep.include.members([new Message('Quinn', 'says', message.message, timestamp)])
+    const message = new Message('Quinn Wheatsteal', 'says', 'ic', 'You do have an awful lot of stories.', timestamp)
+    expect(shorten([message])).to.deep.include.members([new Message('Quinn', 'says', 'ic', message.message, timestamp)])
   })
 
   it('should not shorten short characters names', () => {
-    const message = new Message('Orin', 'says', 'You do have an awful lot of stories.', timestamp)
+    const message = new Message('Orin', 'says', 'ic', 'You do have an awful lot of stories.', timestamp)
     expect(shorten([message])).to.deep.include.members([message])
   })
 

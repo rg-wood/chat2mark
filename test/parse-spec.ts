@@ -16,7 +16,7 @@ describe('parseChat()', () => {
       You do have an awful lot of stories.
     </div>`
 
-    const expected = new Message('Orin', 'says', 'You do have an awful lot of stories.', timestamp)
+    const expected = new Message('Orin', 'says', 'ic', 'You do have an awful lot of stories.', timestamp)
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -27,7 +27,7 @@ describe('parseChat()', () => {
       Orin raises an eyebrow at Quinn.
     </div>`
 
-    const expected = new Message('Orin', 'does', 'raises an eyebrow at Quinn.', timestamp)
+    const expected = new Message('Orin', 'does', 'ic', 'raises an eyebrow at Quinn.', timestamp)
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -37,7 +37,7 @@ describe('parseChat()', () => {
         Quinn Wheatsteal raises an eyebrow at Orin.
     </div>`
 
-    const expected = new Message('Quinn Wheatsteal', 'does', 'raises an eyebrow at Orin.', undefined)
+    const expected = new Message('Quinn Wheatsteal', 'does', 'ic', 'raises an eyebrow at Orin.', timestamp)
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -48,7 +48,7 @@ describe('parseChat()', () => {
         The soldier raises an eyebrow at Orin.
     </div>`
 
-    const expected = new Message('The soldier', 'does', 'raises an eyebrow at Orin.', timestamp)
+    const expected = new Message('The soldier', 'does', 'ic', 'raises an eyebrow at Orin.', timestamp)
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -88,7 +88,7 @@ describe('parseChat()', () => {
         </div>
     </div>`
 
-    expect(parseChat(html)).to.deep.include.members([new Message('Biron', 'rolls', 'Stealth: 20', timestamp)])
+    expect(parseChat(html)).to.deep.include.members([new Message('Biron', 'rolls', 'ooc', 'Stealth: 20', timestamp)])
   })
 
   it('should parse GM message', () => {
@@ -98,7 +98,7 @@ describe('parseChat()', () => {
       They soon disappear into the night as well.
     </div>`
 
-    const expected = new Message('GM', 'says', 'They soon disappear into the night as well.', timestamp)
+    const expected = new Message('GM', 'says', 'ic', 'They soon disappear into the night as well.', timestamp)
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -109,7 +109,7 @@ describe('parseChat()', () => {
       We're being followed.
     </div>`
 
-    const expected = new Message('', 'says', 'We\'re being followed.', timestamp)
+    const expected = new Message('', 'says', 'ic', 'We\'re being followed.', timestamp)
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 
@@ -127,7 +127,7 @@ describe('parseChat()', () => {
       <div class="dicegrouping" data-groupindex="0">(<div data-origindex="0" class="diceroll d20"><div class="dicon"><div class="didroll">14</div><div class="backing"></div></div></div>)</div>+3<div class="clear"></div></div><div class="clear"></div><strong>=</strong><div class="rolled">17</div></div>
     `
 
-    const expected = new Message('Flint', 'rolls', '17', timestamp)
+    const expected = new Message('Flint', 'rolls', 'ooc', '17', timestamp)
     expect(parseChat(html)).to.deep.include.members([expected])
   })
 

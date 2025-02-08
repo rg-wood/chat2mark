@@ -1,8 +1,8 @@
 {
-  "name": "chat2mark",
+  "name": "chat2csv",
   "version": "0.3.0",
-  "description": "Script to convert Roll20 Chat logs to Markdown campaign diaries.",
-  "repository": "https://github.com/rg-wood/chat2mark",
+  "description": "Script to convert Roll20 and Discord chat logs to CSV.",
+  "repository": "https://github.com/rg-wood/chat2csv",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
@@ -26,7 +26,7 @@
   "main": "dist/bin/app.js",
   "typings": "dist/bin/app.d.ts",
   "bin": {
-    "chat2mark": "bin/chat2mark"
+    "chat2csv": "bin/chat2csv"
   },
   "files": [
     "bin",

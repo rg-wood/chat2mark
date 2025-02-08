@@ -12,18 +12,13 @@ class Convert {
     initialize() {
         this.program
             .version(this.package.version)
-            .arguments('<input> <output>')
-            .option('-p, --preprocess', 'output pre-processed CSV data only')
-            .option('-r, --postprocess', 'post-process CSV data')
-            .action((input, output, options) => {
-            const doPreprocess = options.preprocess !== undefined && options.preprocess;
-            const doPostprocess = options.postprocess !== undefined && options.postprocess;
-            if (typeof input === 'string' &&
-                typeof output === 'string' &&
-                typeof doPreprocess === 'boolean' &&
-                typeof doPostprocess === 'boolean') {
-                const body = fs.readFileSync(input, 'utf8');
-                fs.writeFileSync(output, convert_1.preprocess(body));
+            .arguments('<roll20.html> <discord.csv <output>')
+            .action((ic, ooc, output, options) => {
+            if (typeof ic === 'string' &&
+                typeof ooc === 'string' &&
+                typeof output === 'string') {
+                const body = fs.readFileSync(ic, 'utf8');
+                fs.writeFileSync(output, convert_1.convert(ooc)(body));
             }
         })
             .parse(process.argv);
