@@ -6,8 +6,8 @@ import * as fs from 'fs-extra'
 
 const assert = chai.assert
 
-function chat2mark(args: string[]) {
-  const script = path.resolve(__dirname, '../bin/chat2mark')
+function chat2csv(args: string[]) {
+  const script = path.resolve(__dirname, '../bin/chat2csv')
   const result = execa.sync(script, args)
 
   console.log(result.stdout)
@@ -27,16 +27,16 @@ function withTestFolder(testWith: (folder: string) => void) {
   }
 }
 
-describe('chat2mark', () => {
-  it('should convert Roll20 chat HTML to markdown', () => {
+describe('chat2csv', () => {
+  it('should convert Roll20 chat HTML to preprocessed CSV', () => {
     withTestFolder(folder => {
-      const actualMarkdownFile = `${folder}/actual.md`
-      chat2mark(['convert', 'test/roll20.html', actualMarkdownFile])
+      const actualCsvFile = `${folder}/actual.csv`
+      chat2csv(['test/fixtures/roll20.html', 'test/fixtures/discord.chat.csv', actualCsvFile])
 
-      const actualMarkdown = fs.readFileSync(actualMarkdownFile, 'utf8')
-      const expectedMarkdown = fs.readFileSync('test/campaign-diary.md', 'utf8')
+      const actualCsv = fs.readFileSync(actualCsvFile, 'utf8')
+      const expectedCsv = fs.readFileSync('test/fixtures/campaign-diary.csv', 'utf8')
 
-      assert.strictEqual(expectedMarkdown, actualMarkdown)
+      assert.strictEqual(expectedCsv, actualCsv)
     })
   })
 })

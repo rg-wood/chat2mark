@@ -1,25 +1,23 @@
-import { Message, PlayerMessage } from './messages'
+import { Message, MessageFilter } from './messages'
 
 const shortenedNames: { [character: string]: string } = {
   'Quinn Wheatsteal': 'Quinn',
   'Sergeant Agata': 'Agata',
   'Corporal Loth': 'Loth',
   'Ba\' Raknul': 'Ba\'Raknul',
-  'Ric (GM)': 'GM'
+  'Ric (GM)': 'GM',
+  'Commander101#9473': 'Chris',
+  'Ric#0018': 'Ric',
+  'Micky#1032': 'Mark',
+  'Tempest#7268': 'Morgan'
 }
 
-const shortenName: (message: PlayerMessage) => PlayerMessage = (message: PlayerMessage) =>
-  new PlayerMessage(
-    (shortenedNames[message.actor] != null && shortenedNames[message.actor]) || message.actor,
-    message.events
-  )
-
-const shortenNames: (message: Message) => Message = (message: Message) => {
-  switch (message.kind) {
-    case 'player': return shortenName(message)
-    default: return message
-  }
-}
-
-export const shorten: (messages: Message[]) => Message[] = (messages: Message[]) =>
-  messages.map(shortenNames)
+export const shorten: MessageFilter = (messages: Message[]) =>
+  messages
+    .map((message) => {
+      const shortened: Message = {
+        ...message,
+        actor: shortenedNames[message.actor] !== undefined ? shortenedNames[message.actor] : message.actor
+      }
+      return shortened
+    })

@@ -1,1 +1,1 @@
-export declare const convert: (html: string) => string;
+export declare function convert(ooc: string): (html: string) => string;

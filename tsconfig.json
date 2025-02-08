@@ -9,7 +9,10 @@
 		"outDir": "./dist",
 		"preserveConstEnums": true,
 		"removeComments": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "lib": [
+      "esnext"
+    ]
 	},
 	"include": [
 		"src/**/*"

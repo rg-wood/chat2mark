@@ -1,2 +1,2 @@
 import { MessageFilter } from './messages';
-export declare const empty: MessageFilter;
+export declare const sort: MessageFilter;

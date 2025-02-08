@@ -1,18 +1,20 @@
 import { shorten } from '../src/shorten'
-import { PlayerMessage, Speech } from '../src/messages'
+import { Message } from '../src/messages'
 import * as chai from 'chai'
 
 const expect = chai.expect
 
 describe('shorten()', () => {
 
+  const timestamp = new Date(Date.now())
+
   it('should shorten characters names', () => {
-    const message = new PlayerMessage('Quinn Wheatsteal', [new Speech('You do have an awful lot of stories.')])
-    expect(shorten([message])).to.deep.include.members([new PlayerMessage('Quinn', message.events)])
+    const message = new Message('Quinn Wheatsteal', 'says', 'ic', 'You do have an awful lot of stories.', timestamp)
+    expect(shorten([message])).to.deep.include.members([new Message('Quinn', 'says', 'ic', message.message, timestamp)])
   })
 
   it('should not shorten short characters names', () => {
-    const message = new PlayerMessage('Orin', [new Speech('You do have an awful lot of stories.')])
+    const message = new Message('Orin', 'says', 'ic', 'You do have an awful lot of stories.', timestamp)
     expect(shorten([message])).to.deep.include.members([message])
   })
 

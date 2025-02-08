@@ -1,6 +1,8 @@
 import * as commander from 'commander'
+import { convert } from '../convert'
+import * as fs from 'fs-extra'
 
-export class App {
+export class Convert {
 
   private readonly program: commander.CommanderStatic
 
@@ -14,11 +16,23 @@ export class App {
   public initialize (): void {
     this.program
       .version(this.package.version)
-      .command('convert <input> <output>', 'Convert Roll20 chat HTML to markdown post.')
+      .arguments('<roll20.html> <discord.csv <output>')
+      .action((ic, ooc, output, options) => {
+
+        if (
+          typeof ic === 'string' &&
+          typeof ooc === 'string' &&
+          typeof output === 'string'
+        ) {
+          const body = fs.readFileSync(ic, 'utf8')
+
+          fs.writeFileSync(output, convert(ooc)(body))
+        }
+      })
       .parse(process.argv)
   }
 
 }
 
-const app = new App()
+const app = new Convert()
 app.initialize()
