@@ -10,7 +10,10 @@ const shortenedNames = {
     'Commander101#9473': 'Chris',
     'Ric#0018': 'Ric',
     'Micky#1032': 'Mark',
-    'Tempest#7268': 'Morgan'
+    'Tempest#7268': 'Morgan',
+    'Orin Carver': 'Orin',
+    'Kraken#1001': 'Kat',
+    'newt#2465': 'Hope'
 };
 exports.shorten = (messages) => messages
     .map((message) => {
