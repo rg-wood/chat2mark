@@ -11,14 +11,12 @@ $ npm i -g chat2csv
 To execute:
 
 ```sh
-$ chat2csv convert <input> <output>
+$ chat2csv convert <roll20-input> <discord-input> <output>
 ```
-
-Where `input` is a Roll20 chat log HTML fragment and `output` is the name of the Markdown file you want to write to.
 
 For example:
 
 ```sh
-$ chat2csv convert roll20-chat.html campaign-diary.md
+$ chat2csv roll20-chat.html discord.csv campaign-diary.csv
 ```
 
